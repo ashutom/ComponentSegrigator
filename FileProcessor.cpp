@@ -146,6 +146,42 @@ void parseIdAndKernel(std::string& id,std::string& kernel, std::string line){
 }
 
 
+void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel, const std::string& line){
+	//assumint the line is of the format:
+	//ExecutionTime,Index,KernelName,gpu-id,queue-id,queue-index.....
+        if(line.size()<=0) return;
+
+        int i=0;int secondstart=0;
+	
+	//Get to the first Comma
+        while(line[i]!=',' && line[i]!='\0') {   i++;   }
+        if(line[i]!='\0') {
+                ExecutionTime=std::stoi(line.substr(0,i)); //Get the first col now
+        }
+        i++;
+        while(line[i]!=',' && line[i]!='\0') {   i++;   }
+	i++;secondstart=i; // second is id ... so let it go
+
+        while(line[i]!=',' && line[i]!='\0') {   i++;   }
+        if(line[i]!='\0') {
+                kernel=line.substr(secondstart,i); // Get the third as that is Kernel
+        }
+}
+
+
+void GetDiffBasedOnKernel(long long& Diff,const std::string& line1, const std::string& line2){
+        if(line1.size()<=0 || line2.size()<=0) return;
+
+        std::string k1,k2;
+        long long firsnum,secnum;firsnum=secnum=0;
+	Diff=0;
+	parseExecutionTimeAndKernelV2(firsnum,k1,line1);
+        parseExecutionTimeAndKernelV2(secnum,k2,line2);
+	if(k1==k2){
+		Diff=secnum-firsnum;
+	}
+}
+
 void WriteCommonKernelIDsToFile(std::string& FirstI, std::string& Second, std::string& Output){
 
         std::ifstream f1(FirstI.c_str()),  f2(Second.c_str());
@@ -172,6 +208,36 @@ void WriteCommonKernelIDsToFile(std::string& FirstI, std::string& Second, std::s
                 if(fk==sk){
                         Of<<fid<<","<<sid<<std::endl;
                 }
+        }
+        f1.close(); f2.close(); Of.close();
+}
+
+void WriteDiffExecutionTimeToSameFile(std::string& FirstI, std::string& Second){
+
+	std::string TempF=std::string("With_Diff_Time_")+FirstI;
+        std::string line1, line2;
+        std::ifstream f1(FirstI.c_str()),  f2(Second.c_str());
+        std::ofstream Of(TempF.c_str());
+
+
+        CHECK_RETURN_ON_FAIL(f1,FirstI);
+        CHECK_RETURN_ON_FAIL(f2,Second);
+        CHECK_RETURN_ON_FAIL(Of,TempF);
+
+        getline(f1,line1);
+        getline(f2,line2);
+        Of<<"DiffExecutionTime"<<line1;
+        while( !f1.eof()  && !f2.eof()){
+                getline(f1,line1);
+                getline(f2,line2);
+                if(line1.size()<=0 || line2.size()<=0) {
+                        std::cout<<" Reached End of the file for one file " <<std::endl;
+                        break;
+                }
+		long long diff=0;
+		GetDiffBasedOnKernel(diff,line1,line2);
+                //std::cout<<" diff == "<<diff<<std::endl;
+		Of<<std::to_string(diff)<<line1;	
         }
         f1.close(); f2.close(); Of.close();
 }
