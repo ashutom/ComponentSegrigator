@@ -165,7 +165,7 @@ void WriteCommonKernelIDsToFile(std::string& FirstI, std::string& Second, std::s
                         std::cout<<" Reached End of the file for one file " <<std::endl;
                         break;
                 }
-                std:std::string fid,fk, sid, sk;
+                std::string fid,fk, sid, sk;
                 parseIdAndKernel(fid,fk,line1);
                 parseIdAndKernel(sid,sk,line2);
                 //std::cout<<" fid == "<<fid<<" fk = "<<fk<<" sid=="<<sid<<"  sk= "<<sk<<std::endl;
