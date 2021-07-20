@@ -31,7 +31,7 @@ sed -i "1s/.*/$ETF/" $CWF/$ETF
 
 echo
 echo "Adding Execution Time to Profiler "
-paste -d',' $CWF/$ETF prof.csv > "$NFET"
+paste -d',' $CWF/$ETF $1 > "$NFET"
 echo " Done... "
 
 

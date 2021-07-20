@@ -5,7 +5,7 @@
 #
 cmake_minimum_required(VERSION 3.6.3)
 
-set(EXE "FielProcessor")
+set(EXE "FileProcessor")
 set(PROJECT_NAME ${EXE})
 project (${PROJECT_NAME})
 

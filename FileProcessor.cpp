@@ -1,6 +1,7 @@
 #include<fstream>
 #include<iostream>
 #include<string>
+#include<vector>
 
 
 #define CHECK_RETURN_ON_FAIL_All(X,Y)   do{     \
@@ -20,6 +21,8 @@
                                         }while(0);
 
 
+
+const int MATCH_PERCENTAGE=69;
 
 std::string ExtractLastColFromline(const std::string& line){
         std::string retval;
@@ -60,6 +63,60 @@ void ExtractIDs(std::string& id, std::string& id2, const std::string& line){
                 id2=line.substr(i);
         }
 
+}
+
+std::vector<std::string> SplitWords(const std::string& line, char delim){
+	std::vector<std::string> Retval;
+	unsigned int laststart=0;unsigned int i=0;
+	for(;i<line.length();i++){
+		if(line[i]==delim){
+			if(i-laststart>0){
+				Retval.push_back(line.substr(laststart,i-laststart));
+			}
+			laststart=i+1;
+		}
+	}
+	if(i-laststart>0){
+		Retval.push_back(line.substr(laststart,i-laststart));
+	}
+	return Retval;	
+}
+
+bool DoesWordsMatch(const std::string& w1,const std::string& w2){
+	unsigned int c,m;m=c=0;
+	for(;c<w1.length() && c<w2.length();c++){
+		if(w1[c]==w2[c]){
+			m++;
+		}
+	}
+	bool Retval=false;
+	if( ((m*100)/c) >=MATCH_PERCENTAGE){ Retval=true; }
+	return Retval;
+	
+}
+
+bool DoesKernelMatch(const std::string& k1, const std::string& k2){
+
+	std::vector<std::string> Fwrods, Swords;
+	std::string L("legacy");std::string M("modern");
+	Fwrods=SplitWords(k1,' ');
+	Swords=SplitWords(k2,' ');
+	bool fmatch=DoesWordsMatch(Fwrods[0],Swords[0]); //return values or single name kernerl
+	if(Fwrods.size()>=2 && Swords.size()>=2){
+		std::vector<std::string> FwrodsEle2, SwordsEle2;
+		FwrodsEle2=SplitWords(Fwrods[1],':');
+		SwordsEle2=SplitWords(Swords[2],':');
+		//return DoesWordsMatch(FwrodsEle2[FwrodsEle2.size()-1],SwordsEle2[SwordsEle2.size()-1]);
+		unsigned int counter=0; bool latmatch=true;
+		for(;counter<FwrodsEle2.size() && counter<SwordsEle2.size() && latmatch;counter++){
+			if((FwrodsEle2[counter]==L && SwordsEle2[counter]==M) || (FwrodsEle2[counter]==M && SwordsEle2[counter]==L) ){ //Special case of legacy / modern 
+				continue;	
+			}
+			latmatch=latmatch && DoesWordsMatch(FwrodsEle2[counter],SwordsEle2[counter]);
+		}
+		return latmatch;
+	}
+	return fmatch;
 }
 
 void WriteCommonKernelTimesToFirstFile(std::string& FirstI, std::string& Second, std::string& Third, std::string& Output){
@@ -160,11 +217,12 @@ void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel,
         }
         i++;
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
-	i++;secondstart=i; // second is id ... so let it go
+	i++;i++; // skipping , & "
+	secondstart=i; // second is id ... so let it go
 
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
         if(line[i]!='\0') {
-                kernel=line.substr(secondstart,i); // Get the third as that is Kernel
+                kernel=line.substr(secondstart,i-secondstart); // Get the third as that is Kernel
         }
 }
 
@@ -177,6 +235,7 @@ void GetDiffBasedOnKernel(long long& Diff,const std::string& line1, const std::s
 	Diff=0;
 	parseExecutionTimeAndKernelV2(firsnum,k1,line1);
         parseExecutionTimeAndKernelV2(secnum,k2,line2);
+	std::cout<<" K1 = "<<k1<<" and K2 = " <<k2<<std::endl;
 	if(k1==k2){
 		Diff=secnum-firsnum;
 	}
@@ -205,7 +264,7 @@ void WriteCommonKernelIDsToFile(std::string& FirstI, std::string& Second, std::s
                 parseIdAndKernel(fid,fk,line1);
                 parseIdAndKernel(sid,sk,line2);
                 //std::cout<<" fid == "<<fid<<" fk = "<<fk<<" sid=="<<sid<<"  sk= "<<sk<<std::endl;
-                if(fk==sk){
+                if(DoesKernelMatch(fk,sk)){
                         Of<<fid<<","<<sid<<std::endl;
                 }
         }
@@ -226,7 +285,7 @@ void WriteDiffExecutionTimeToSameFile(std::string& FirstI, std::string& Second){
 
         getline(f1,line1);
         getline(f2,line2);
-        Of<<"DiffExecutionTime"<<line1;
+        Of<<"DiffExecutionTime,"<<line1<<std::endl;
         while( !f1.eof()  && !f2.eof()){
                 getline(f1,line1);
                 getline(f2,line2);
@@ -237,40 +296,57 @@ void WriteDiffExecutionTimeToSameFile(std::string& FirstI, std::string& Second){
 		long long diff=0;
 		GetDiffBasedOnKernel(diff,line1,line2);
                 //std::cout<<" diff == "<<diff<<std::endl;
-		Of<<std::to_string(diff)<<line1;	
+		//Of<<std::to_string(diff)<<","<<line1<<std::endl;
+		Of<<diff<<","<<line1<<std::endl;
         }
         f1.close(); f2.close(); Of.close();
 }
 
 int main( int argc, char* argv[] ){
 
-        std::cout<<" Options : \n\n\n"
-                <<" 1. Make the Common IDs File \n"
-                <<" 2. Make the Final File using the common IDs file \n\n"
-                <<" Choice : (1/2) : ";
-        std::string choice;
-        std::getline(std::cin,choice);
-        //std::cin>>choice;
-        if(std::to_string(1)==choice){
-                std::string If1, If2, Op;
-                std::getline(std::cin,If1);
-                std::getline(std::cin,If2);
-                std::getline(std::cin,Op);
-                WriteCommonKernelIDsToFile(If1,If2,Op);
-        }else if(std::to_string(2)==choice){
-                std::string If1, If2, If3, Op;
-                std::getline(std::cin,If1);
-                std::getline(std::cin,If2);
-                std::getline(std::cin,If3);
-                std::getline(std::cin,Op);
-                WriteCommonKernelTimesToFirstFile(If1,If2,If3,Op);
-
-        }else{
-                std::cerr<<" Not given expected arguments "<<std::endl;
+	if(argc < 3) {
+            std::cerr<< " Insufficient arguments " << std::endl;
+            exit(1);
         }
 
+	switch( std::stoi(std::string(argv[1]))) {
+		case 1: { 
+				if(argc < 5) {
+			            std::cerr<< " Insufficient arguments " << std::endl;
+			            exit(1);
+        			}
+				std::string If1(argv[2]);
+				std::string If2(argv[3]);
+				std::string Op(argv[4]);
+				WriteCommonKernelIDsToFile(If1,If2,Op);
+			}
+			break;
+		case 2: {
+				if(argc < 6) {
+			            std::cerr<< " Insufficient arguments " << std::endl;
+			            exit(1);
+        			}
+				std::string If1(argv[2]);
+				std::string If2(argv[3]);
+				std::string If3(argv[4]);
+				std::string Op(argv[5]);
+				WriteCommonKernelTimesToFirstFile(If1,If2,If3,Op);
+			}
+			break;
+		case 3: {
+				if(argc < 4) {
+			            std::cerr<< " Insufficient arguments " << std::endl;
+			            exit(1);
+        			}
+				std::string If1(argv[2]);
+				std::string If2(argv[3]);
+				WriteDiffExecutionTimeToSameFile(If1,If2);
+			}
+			break;
+		default : std::cerr<< " Wrong arguments " << std::endl; exit(1);
+	}
 
-        return 0;
+	return 0;
 }
 
 
