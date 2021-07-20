@@ -105,7 +105,7 @@ bool DoesKernelMatch(const std::string& k1, const std::string& k2){
 	if(Fwrods.size()>=2 && Swords.size()>=2){
 		std::vector<std::string> FwrodsEle2, SwordsEle2;
 		FwrodsEle2=SplitWords(Fwrods[1],':');
-		SwordsEle2=SplitWords(Swords[2],':');
+		SwordsEle2=SplitWords(Swords[1],':');
 		//return DoesWordsMatch(FwrodsEle2[FwrodsEle2.size()-1],SwordsEle2[SwordsEle2.size()-1]);
 		unsigned int counter=0; bool latmatch=true;
 		for(;counter<FwrodsEle2.size() && counter<SwordsEle2.size() && latmatch;counter++){
@@ -222,7 +222,7 @@ void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel,
 
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
         if(line[i]!='\0') {
-                kernel=line.substr(secondstart,i-secondstart); // Get the third as that is Kernel
+                kernel=line.substr(secondstart); // Get the third as that is Kernel
         }
 }
 
@@ -235,8 +235,9 @@ void GetDiffBasedOnKernel(long long& Diff,const std::string& line1, const std::s
 	Diff=0;
 	parseExecutionTimeAndKernelV2(firsnum,k1,line1);
         parseExecutionTimeAndKernelV2(secnum,k2,line2);
-	std::cout<<" K1 = "<<k1<<" and K2 = " <<k2<<std::endl;
-	if(k1==k2){
+	//std::cout<<" K1 = "<<k1<<" and K2 = " <<k2<<std::endl;
+	//if(k1==k2){
+	if(DoesKernelMatch(k1,k2)){
 		Diff=secnum-firsnum;
 	}
 }
