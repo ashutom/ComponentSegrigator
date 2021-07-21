@@ -344,22 +344,28 @@ void WriteDiffExecutionTimeToSameFile(std::string& FirstI, std::string& Second){
 }
 
 void GetStatsData(std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ifstream& InputFile){
-	while(InputFile.eof()){
+
+	std::string firstline;
+	getline(InputFile,firstline); // eat firstline as that is meta data
+	while(!InputFile.eof()){
 		std::string line, kernel;
 		getline(InputFile,line);
 		long long Exetime;
 		parseExecutionTimeAndKernelV3(Exetime,kernel,line);
 		auto found=StatsData.find(kernel);
-		if(found !=StatsData.end()){
+		if(found ==StatsData.end()){
+			//std::cout<<" Inserting New Kernel :=>> [ "<<kernel<<" ] <<=="<<std::endl;
 			StatsData.insert({kernel,std::make_tuple<unsigned long long,unsigned long>(Exetime,1) });
 		}else{
 			std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
 			StatsData[kernel]= std::make_tuple<unsigned long long,unsigned long>(
-					(std::get<0>(tmptuple)*std::get<1>(tmptuple))/(std::get<1>(tmptuple)+1),
+					(std::get<0>(tmptuple)*std::get<1>(tmptuple) + Exetime)/(std::get<1>(tmptuple)+1),
 					std::get<1>(tmptuple)+1
 				);
 		}
 	}
+	std::cout<<" File processing  Over "<<std::endl
+                 <<" Found : "<<StatsData.size() << " Kernels "<<std::endl;
 }
 
 void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ofstream& OutputFile){
@@ -388,7 +394,9 @@ void CalculateStats(std::string& FirstI, std::string& Second){
 		CHECK_RETURN_ON_FAIL_THIS(OutputFile,InputArry[counter]);
 		
 		PutStatsData(StatsData,OutputFile);
-		OutputFile.close();		
+		OutputFile.close();
+
+		counter++;
 	}
 }
 int main( int argc, char* argv[] ){
