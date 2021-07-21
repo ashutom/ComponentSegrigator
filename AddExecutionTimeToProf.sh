@@ -4,12 +4,14 @@ echo " Profiler Output File given = $1 "
 
 if [ ! -e "$1" ] || [ ! -s "$1" ] ; then
     echo "File is empty or does not exists "
+    exit 1
 fi
 
 #constants for using
 CWF="$PWD/workingdir"
 ETF="ExecutionTime"
 NFET="$1_with_$ETF.csv"
+EXTM="NONE"  #Execution Time Method
 
 
 echo
@@ -23,7 +25,29 @@ fi
 
 echo
 echo "Calculating Execution Time "
-awk -F, '{ print $NF - $(NF-3) }' $1 > $CWF/$ETF
+echo
+echo " Processing Options "
+echo
+echo "1. Execution Time = Endtime - StartTime "
+echo "2. Execution Time = CompletionTime -  SubmissionTime "
+echo
+echo " Choice ( 1/2 ) "
+
+read CHOICE
+
+if [ $CHOICE -eq 1 ]; then
+     EXTM="End_Start"
+     awk -F, '{ print $(NF-1) - $(NF-2) }' $1 > $CWF/$ETF
+elif [ $CHOICE -eq 2 ]; then
+     EXTM="Complete_Dispatch"
+     awk -F, '{ print $NF - $(NF-3) }' $1 > $CWF/$ETF
+else
+   echo " Wrong choice "
+   exit 1
+fi
+
+NFET="$1_with_$ETF$EXTM.csv"
+
 echo " Done .. "
 
 sed -i "1s/.*/$ETF/" $CWF/$ETF
@@ -42,11 +66,6 @@ rm -rf $CWF
 echo "Sucessfully Completed"
 
 echo "Output File is $NFET "
-
-
-
-
-
 
 
 
