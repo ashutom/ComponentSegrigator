@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo " Profiler Output File given = $1 "
+echo "Profiler Output File given = $1 "
 
 if [ ! -e "$1" ] || [ ! -s "$1" ] ; then
     echo "File is empty or does not exists "
@@ -26,14 +26,18 @@ fi
 echo
 echo "Calculating Execution Time "
 echo
-echo " Processing Options "
+echo "Options for calculating the execution time "
 echo
 echo "1. Execution Time = Endtime - StartTime "
 echo "2. Execution Time = CompletionTime -  SubmissionTime "
 echo
-echo " Choice ( 1/2 ) "
+echo "Choice ( 1/2 ) "
 
 read CHOICE
+
+echo
+echo "Processing ..... "
+echo
 
 if [ $CHOICE -eq 1 ]; then
      EXTM="End_Start"
@@ -42,25 +46,25 @@ elif [ $CHOICE -eq 2 ]; then
      EXTM="Complete_Dispatch"
      awk -F, '{ print $NF - $(NF-3) }' $1 > $CWF/$ETF
 else
-   echo " Wrong choice "
+   echo "Wrong choice "
    exit 1
 fi
 
 NFET="$1_with_$ETF$EXTM.csv"
 
-echo " Done .. "
+echo "Done .. "
 
 sed -i "1s/.*/$ETF/" $CWF/$ETF
 
 
 echo
-echo "Adding Execution Time to Profiler "
+echo "Adding Execution Time to Profiler Data ..."
 paste -d',' $CWF/$ETF $1 > "$NFET"
-echo " Done... "
+echo "Done... "
 
 
 echo
-echo " Removing temps "
+echo "Removing temps "
 rm -rf $CWF
 
 echo "Sucessfully Completed"

@@ -364,18 +364,19 @@ void GetStatsData(std::unordered_map<std::string,std::tuple<unsigned long long,u
 				);
 		}
 	}
-	std::cout<<" File processing  Over "<<std::endl
-                 <<" Found : "<<StatsData.size() << " Kernels "<<std::endl;
 }
 
 void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ofstream& OutputFile){
-	OutputFile<<" Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution, TotalTimeOfExecution "<<std::endl;
+	int counter=0;
+	OutputFile<<" S.No., Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution, TotalTimeOfExecution "<<std::endl;
+	counter++;
 	std::string comma(",");std::string codes("\"");
 	for( const auto& [kernel, value] : StatsData ) {
-		OutputFile<<codes<<kernel<<codes<<comma
+		OutputFile<<counter++<<comma<<
+				codes<<kernel<<codes<<comma
 				<<std::get<0>(value)<<comma
 				<<std::get<1>(value)+1<<comma
-				<<std::get<0>(value)* (std::get<1>(value)+1) 
+				<<std::get<0>(value)* (std::get<1>(value)+1)
 				<<std::endl;
 	}
 }
@@ -386,18 +387,23 @@ void CalculateStats(std::string& FirstI, std::string& Second){
 	unsigned int counter=0;
 	while(counter<InputArry.size()){
 
+		std::cout<<"\n\n\n Processing file [ "<<InputArry[counter]<< " ] "<<std::endl;
 		std::ifstream InputFile(InputArry[counter].c_str());
 		CHECK_RETURN_ON_FAIL_THIS(InputFile,InputArry[counter]);
 		
 		std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>> StatsData;
 		GetStatsData(StatsData,InputFile);
+		std::cout<<" Processed File ["<<InputArry[counter]<<"]"<<std::endl
+		<<" Found : "<<StatsData.size() << " Kernels "<<std::endl;
 		InputFile.close();
 		
 		std::string outputfile=std::string("STATS_")+InputArry[counter];
 		std::ofstream OutputFile(outputfile.c_str());
 		CHECK_RETURN_ON_FAIL_THIS(OutputFile,InputArry[counter]);
 		
+		std::cout<<" Writing Stats Data to File ["<<outputfile<<"]"<<std::endl;
 		PutStatsData(StatsData,OutputFile);
+		std::cout<<" Finished processing of File ["<<outputfile<<"]"<<std::endl;
 		OutputFile.close();
 
 		counter++;
