@@ -2,6 +2,8 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<tuple>
+#include<unordered_map>
 
 
 #define CHECK_RETURN_ON_FAIL_All(X,Y)   do{     \
@@ -20,6 +22,14 @@
                                                 }       \
                                         }while(0);
 
+
+#define CHECK_RETURN_ON_FAIL_THIS(X,Y)       do{     \
+                                                if(!X.is_open()) {      \
+                                                        std::cerr<<" Could not open "<< Y<<std::endl;   \
+                                                        X.close();   \
+                                                        return; \
+                                                }       \
+                                        }while(0);
 
 
 const int MATCH_PERCENTAGE=69;
@@ -98,25 +108,29 @@ bool DoesWordsMatch(const std::string& w1,const std::string& w2){
 bool DoesKernelMatch(const std::string& k1, const std::string& k2){
 
 	std::vector<std::string> Fwrods, Swords;
+	std::vector<std::string> FwrodsEle2, SwordsEle2;
 	std::string L("legacy");std::string M("modern");
 	Fwrods=SplitWords(k1,' ');
 	Swords=SplitWords(k2,' ');
-	bool fmatch=DoesWordsMatch(Fwrods[0],Swords[0]); //return values or single name kernerl
+	//bool fmatch=DoesWordsMatch(Fwrods[0],Swords[0]); //return values or single name kernerl
 	if(Fwrods.size()>=2 && Swords.size()>=2){
-		std::vector<std::string> FwrodsEle2, SwordsEle2;
 		FwrodsEle2=SplitWords(Fwrods[1],':');
 		SwordsEle2=SplitWords(Swords[1],':');
 		//return DoesWordsMatch(FwrodsEle2[FwrodsEle2.size()-1],SwordsEle2[SwordsEle2.size()-1]);
 		unsigned int counter=0; bool latmatch=true;
-		for(;counter<FwrodsEle2.size() && counter<SwordsEle2.size() && latmatch;counter++){
+		for(;counter<FwrodsEle2.size() && counter<SwordsEle2.size() && latmatch && counter<5;counter++){ //matches only 4 elements
 			if((FwrodsEle2[counter]==L && SwordsEle2[counter]==M) || (FwrodsEle2[counter]==M && SwordsEle2[counter]==L) ){ //Special case of legacy / modern 
 				continue;	
 			}
 			latmatch=latmatch && DoesWordsMatch(FwrodsEle2[counter],SwordsEle2[counter]);
 		}
 		return latmatch;
+	}else{ // kernel is a single line 
+		FwrodsEle2=SplitWords(Fwrods[0],',');
+		SwordsEle2=SplitWords(Swords[0],',');
+		return DoesWordsMatch(FwrodsEle2[0],SwordsEle2[0]);		
 	}
-	return fmatch;
+	return false;
 }
 
 void WriteCommonKernelTimesToFirstFile(std::string& FirstI, std::string& Second, std::string& Third, std::string& Output){
@@ -227,6 +241,32 @@ void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel,
 }
 
 
+void parseExecutionTimeAndKernelV3(long long& ExecutionTime,std::string& kernel, const std::string& line){ //This shall be used for stats mainly
+	//assumint the line is of the format:
+	//ExecutionTime,Index,KernelName,gpu-id,queue-id,queue-index.....
+        if(line.size()<=0) return;
+
+        int i=0;int secondstart=0;
+	
+	//Get to the first Comma
+        while(line[i]!=',' && line[i]!='\0') {   i++;   }
+        if(line[i]!='\0') {
+                ExecutionTime=std::stoi(line.substr(0,i)); //Get the first col now
+        }
+        i++;
+        while(line[i]!=',' && line[i]!='\0') {   i++;   }
+	i++;i++; // skipping , & "
+	secondstart=i; // second is id ... so let it go
+
+	//search for 18 commas from last
+	i=line.size()-1;int numofcommas=0;
+        while(i>secondstart && numofcommas<18 ) {   if(line[i]==','){ numofcommas++;} i--;   }
+	
+	if(numofcommas>=18 && i-secondstart>0){
+                kernel=line.substr(secondstart,i-secondstart); // Get the third as that is Kernel
+	}
+}
+
 void GetDiffBasedOnKernel(long long& Diff,const std::string& line1, const std::string& line2){
         if(line1.size()<=0 || line2.size()<=0) return;
 
@@ -303,6 +343,54 @@ void WriteDiffExecutionTimeToSameFile(std::string& FirstI, std::string& Second){
         f1.close(); f2.close(); Of.close();
 }
 
+void GetStatsData(std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ifstream& InputFile){
+	while(InputFile.eof()){
+		std::string line, kernel;
+		getline(InputFile,line);
+		long long Exetime;
+		parseExecutionTimeAndKernelV3(Exetime,kernel,line);
+		auto found=StatsData.find(kernel);
+		if(found !=StatsData.end()){
+			StatsData.insert({kernel,std::make_tuple<unsigned long long,unsigned long>(Exetime,1) });
+		}else{
+			std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
+			StatsData[kernel]= std::make_tuple<unsigned long long,unsigned long>(
+					(std::get<0>(tmptuple)*std::get<1>(tmptuple))/(std::get<1>(tmptuple)+1),
+					std::get<1>(tmptuple)+1
+				);
+		}
+	}
+}
+
+void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ofstream& OutputFile){
+	OutputFile<<" Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution"<<std::endl;
+	std::string comma(",");
+	for( const auto& [kernel, value] : StatsData ) {
+		OutputFile<<kernel<<comma<<std::get<0>(value)<<comma<<std::get<1>(value)+1<<std::endl;
+	}
+}
+
+void CalculateStats(std::string& FirstI, std::string& Second){
+
+	std::vector<std::string> InputArry={ FirstI, Second };
+	unsigned int counter=0;
+	while(counter<InputArry.size()){
+
+		std::ifstream InputFile(InputArry[counter].c_str());
+		CHECK_RETURN_ON_FAIL_THIS(InputFile,InputArry[counter]);
+		
+		std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>> StatsData;
+		GetStatsData(StatsData,InputFile);
+		InputFile.close();
+		
+		std::string outputfile=std::string("STATS_")+InputArry[counter];
+		std::ofstream OutputFile(outputfile.c_str());
+		CHECK_RETURN_ON_FAIL_THIS(OutputFile,InputArry[counter]);
+		
+		PutStatsData(StatsData,OutputFile);
+		OutputFile.close();		
+	}
+}
 int main( int argc, char* argv[] ){
 
 	if(argc < 3) {
@@ -342,6 +430,16 @@ int main( int argc, char* argv[] ){
 				std::string If1(argv[2]);
 				std::string If2(argv[3]);
 				WriteDiffExecutionTimeToSameFile(If1,If2);
+			}
+			break;
+		case 4: {
+				if(argc < 4) {
+			            std::cerr<< " Insufficient arguments " << std::endl;
+			            exit(1);
+        			}
+				std::string If1(argv[2]);
+				std::string If2(argv[3]);
+				CalculateStats(If1,If2);
 			}
 			break;
 		default : std::cerr<< " Wrong arguments " << std::endl; exit(1);
