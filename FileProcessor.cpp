@@ -369,10 +369,14 @@ void GetStatsData(std::unordered_map<std::string,std::tuple<unsigned long long,u
 }
 
 void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ofstream& OutputFile){
-	OutputFile<<" Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution"<<std::endl;
-	std::string comma(",");
+	OutputFile<<" Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution, TotalTimeOfExecution "<<std::endl;
+	std::string comma(",");std::string codes("\"");
 	for( const auto& [kernel, value] : StatsData ) {
-		OutputFile<<kernel<<comma<<std::get<0>(value)<<comma<<std::get<1>(value)+1<<std::endl;
+		OutputFile<<codes<<kernel<<codes<<comma
+				<<std::get<0>(value)<<comma
+				<<std::get<1>(value)+1<<comma
+				<<std::get<0>(value)* (std::get<1>(value)+1) 
+				<<std::endl;
 	}
 }
 
