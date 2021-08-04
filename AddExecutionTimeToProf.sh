@@ -7,6 +7,7 @@ ETF="ExecutionTime"
 NFET="$1_with_$ETF.csv"
 EXTM="NONE"  #Execution Time Method
 CPPEXE="FileProcessor"
+CPPBUILD_DIR="build"
 
 
 echo
@@ -18,10 +19,6 @@ if [ ! -e "$1" ] || [ ! -s "$1" ] ; then
     exit 1
 fi
 
-if [ ! -e "$1" ] || [ ! -s "$1" ] ; then
-    echo "Fatal !!!   $CPPEXE is empty or does not exists "
-    exit 1
-fi
 
 echo
 echo "Creating working dir "
@@ -31,6 +28,24 @@ if [ $? -ne 0 ] ;then
     echo "Could not create Directory "
     exit 1
 fi
+
+#build CPP code
+if [ ! -e "$CPPEXE" ] || [ ! -s "$CPPEXE" ] ; then
+	mkdir -p $CPPBUILD_DIR
+	cd $CPPBUILD_DIR
+	cmake ..
+	make
+	cp $CPPEXE ../
+	cd ..
+	rm -rf $CPPBUILD_DIR
+fi
+
+
+if [ ! -e "$CPPEXE" ] || [ ! -s "$CPPEXE" ] ; then
+    echo "Fatal !!!   $CPPEXE is empty or does not exists "
+    exit 1
+fi
+
 
 declare -a ExecutionOptions=("Execution Time = Endtime - StartTime" "Execution Time = CompletionTime -  SubmissionTime")
 declare -a ExecutionTimeEXTM=("End_Start" "Complete_Dispatch")
@@ -77,9 +92,20 @@ do
     OutputFiles+=("$NFET")
 done
 
+
+#debug info of cpp processor
+#export AMF_DEBUG=1
+
 ./$CPPEXE 4 "${OutputFiles[0]}" "${OutputFiles[1]}"
 
+unset AMF_DEBUG
 
+if [ $? -eq 0 ]; then
+    echo "Sucessfully Completed"
+else
+    echo "There was an error in processing "
+    exit 1
+fi
 
 echo
 echo "Removing temps "
@@ -93,8 +119,10 @@ echo
 
 if [ $? -eq 0 ]; then
     echo "Sucessfully Completed"
+    exit 0
 else
     echo "There was an error in processing "
+    exit 1
 fi
 
 

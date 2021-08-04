@@ -1,9 +1,16 @@
 #include<fstream>
 #include<iostream>
+#include<sstream>
 #include<string>
 #include<vector>
 #include<tuple>
+#include<cstdlib>
 #include<unordered_map>
+
+const int MATCH_PERCENTAGE=69;
+const std::string DEBUGENV_VAR("AMF_DEBUG");
+const std::string DEBUGENV_VAL("1");
+static bool IS_DEBUG_ON=false;
 
 
 #define CHECK_RETURN_ON_FAIL_All(X,Y)   do{     \
@@ -32,7 +39,27 @@
                                         }while(0);
 
 
-const int MATCH_PERCENTAGE=69;
+
+
+
+
+template <typename ...Args>
+void DebugPrintImpl(int line, const char* funName, Args&& ...args)
+{
+    std::ostringstream stream;
+    stream << funName << "(" << line << ") : ";
+    (stream << ... << std::forward<Args>(args)) << '\n';
+
+    std::cout<<stream.str().c_str()<<std::endl;
+}
+
+#define DEBUG_PRINT(...)        do{     \
+                                        if(IS_DEBUG_ON) { \
+                                                DebugPrintImpl(__LINE__,__PRETTY_FUNCTION__,__VA_ARGS__);       \
+                                        }       \
+                                } while(0);
+
+
 
 std::string ExtractLastColFromline(const std::string& line){
         std::string retval;
@@ -190,7 +217,7 @@ void WriteCommonKernelTimesToFirstFile(std::string& FirstI, std::string& Second,
                         if(Intid2==Intid1){
                                 std::string ExeTimeFirst=ExtractLastColFromline(line1);
                                 std::string ExeTimeSecond=ExtractLastColFromline(line2);
-                                long diff=  (long)(std::stoi(ExeTimeSecond)) - (long)(std::stoi(ExeTimeFirst));
+                                long diff=  (long)(std::stol(ExeTimeSecond)) - (long)(std::stol(ExeTimeFirst));
                                 line1=  line1 + std::string(",") +
                                         ExtractLastColFromline(line2) + std::string(",") +
                                         std::to_string(diff);
@@ -227,7 +254,7 @@ void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel,
 	//Get to the first Comma
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
         if(line[i]!='\0') {
-                ExecutionTime=std::stoi(line.substr(0,i)); //Get the first col now
+                ExecutionTime=std::stol(line.substr(0,i)); //Get the first col now
         }
         i++;
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
@@ -242,6 +269,8 @@ void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel,
 
 
 void parseExecutionTimeAndKernelV3(long long& ExecutionTime,std::string& kernel, const std::string& line){ //This shall be used for stats mainly
+        DEBUG_PRINT("line= " ,line);
+
 	//assumint the line is of the format:
 	//ExecutionTime,Index,KernelName,gpu-id,queue-id,queue-index.....
         if(line.size()<=0) return;
@@ -251,7 +280,7 @@ void parseExecutionTimeAndKernelV3(long long& ExecutionTime,std::string& kernel,
 	//Get to the first Comma
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
         if(line[i]!='\0') {
-                ExecutionTime=std::stoi(line.substr(0,i)); //Get the first col now
+                ExecutionTime=std::stol(line.substr(0,i)); //Get the first col now
         }
         i++;
         while(line[i]!=',' && line[i]!='\0') {   i++;   }
@@ -416,7 +445,13 @@ int main( int argc, char* argv[] ){
             exit(1);
         }
 
-	switch( std::stoi(std::string(argv[1]))) {
+        if(std::getenv(DEBUGENV_VAR.c_str())){
+                if(DEBUGENV_VAL == std::getenv(DEBUGENV_VAR.c_str())){
+                        IS_DEBUG_ON=true;
+                }
+        }
+
+	switch( std::stol(std::string(argv[1]))) {
 		case 1: { 
 				if(argc < 5) {
 			            std::cerr<< " Insufficient arguments " << std::endl;
