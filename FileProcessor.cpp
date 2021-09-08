@@ -47,7 +47,7 @@ template <typename ...Args>
 void DebugPrintImpl(int line, const char* funName, Args&& ...args)
 {
     std::ostringstream stream;
-    stream << funName << "(" << line << ") : ";
+    //stream << funName << "(" << line << ") : ";
     (stream << ... << std::forward<Args>(args)) << '\n';
 
     std::cout<<stream.str().c_str()<<std::endl;
@@ -269,7 +269,6 @@ void parseExecutionTimeAndKernelV2(long long& ExecutionTime,std::string& kernel,
 
 
 void parseExecutionTimeAndKernelV3(long long& ExecutionTime,std::string& kernel, const std::string& line){ //This shall be used for stats mainly
-        DEBUG_PRINT("line= " ,line);
 
 	//assumint the line is of the format:
 	//ExecutionTime,Index,KernelName,gpu-id,queue-id,queue-index.....
@@ -378,35 +377,42 @@ void GetStatsData(std::unordered_map<std::string,std::tuple<unsigned long long,u
 	getline(InputFile,firstline); // eat firstline as that is meta data
 	while(!InputFile.eof()){
 		std::string line, kernel;
+		long long Exetime=0;
 		getline(InputFile,line);
-		long long Exetime;
 		parseExecutionTimeAndKernelV3(Exetime,kernel,line);
+		DEBUG_PRINT("line= " ,line);
+		DEBUG_PRINT("kernel= " ,kernel);
+		DEBUG_PRINT("Exetime= " ,Exetime);
+		if(kernel.length()<2) continue;
 		auto found=StatsData.find(kernel);
 		if(found ==StatsData.end()){
-			//std::cout<<" Inserting New Kernel :=>> [ "<<kernel<<" ] <<=="<<std::endl;
 			StatsData.insert({kernel,std::make_tuple<unsigned long long,unsigned long>(Exetime,1) });
+			//std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
+			//std::cout<<" Inserting New Kernel :=>> [ "<<kernel<<" ] & times = "<<std::get<1>(tmptuple)<<"]<<=="<<std::endl;
 		}else{
 			std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
+			unsigned long times=std::get<1>(tmptuple);
+			unsigned long long currentaverage = std::get<0>(tmptuple);
 			StatsData[kernel]= std::make_tuple<unsigned long long,unsigned long>(
-					(std::get<0>(tmptuple)*std::get<1>(tmptuple) + Exetime)/(std::get<1>(tmptuple)+1),
-					std::get<1>(tmptuple)+1
+					((currentaverage*times) + Exetime)/(times+1),times+1
 				);
+			//std::cout<<" Incrementing Kernel  :=>> [ "<<kernel<<" ] occurance to ["<<times+1<< "]<<=="<<std::endl;
 		}
 	}
 }
 
 void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ofstream& OutputFile){
 	int counter=0;
-	OutputFile<<" S.No., Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution, TotalTimeOfExecution "<<std::endl;
+	OutputFile<<" Index, Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution, TotalTimeOfExecution "<<std::endl;
 	counter++;
 	std::string comma(",");std::string codes("\"");
 	for( const auto& [kernel, value] : StatsData ) {
 		OutputFile<<counter++<<comma<<
-				codes<<kernel<<codes<<comma
-				<<std::get<0>(value)<<comma
-				<<std::get<1>(value)+1<<comma
-				<<std::get<0>(value)* (std::get<1>(value)+1)
-				<<std::endl;
+			codes<<kernel<<codes<<comma
+			<<std::get<0>(value)<<comma
+			<<std::get<1>(value)<<comma
+			<<std::get<0>(value)*std::get<1>(value)
+			<<std::endl;
 	}
 }
 
