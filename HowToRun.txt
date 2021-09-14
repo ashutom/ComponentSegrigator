@@ -1,0 +1,170 @@
+How to use :
+
+    I am pasting the logs here :
+    
+==== Start  === 
+
+     root@root:~/PRs/CompSeg/DataForExperiment$
+root@root:~/PRs/CompSeg/DataForExperiment$ cd DeepSpeed-42-21/
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$ ls
+prof.csv
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$ git clone https://github.com/ashutom/ComponentSegrigator
+Cloning into 'ComponentSegrigator'...
+remote: Enumerating objects: 53, done.
+remote: Counting objects: 100% (53/53), done.
+remote: Compressing objects: 100% (36/36), done.
+remote: Total 53 (delta 29), reused 36 (delta 16), pack-reused 0
+Unpacking objects: 100% (53/53), 15.19 KiB | 216.00 KiB/s, done.
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$ ls
+ComponentSegrigator  prof.csv
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$ cp prof.csv ./ComponentSegrigator/
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21$ cd ComponentSegrigator/
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$ ls
+AddExecutionTimeToProf.sh  CMakeLists.txt  FileProcessor.cpp  LICENSE  prof.csv  README.md
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$ ./AddExecutionTimeToProf.sh
+
+
+Profiler Output File given =
+File is empty or does not exists
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$ ./AddExecutionTimeToProf.sh prof.csv
+
+
+Profiler Output File given = prof.csv
+
+Creating working dir
+-- The C compiler identification is GNU 9.3.0
+-- The CXX compiler identification is GNU 9.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+
+Build Configuration:
+-----------BuildType:
+------------Compiler: /usr/bin/c++
+-------------Version: 9.3.0
+--------Proj Src Dir: /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator
+--------Proj Bld Dir: /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build
+--------Proj Lib Dir: /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build/lib
+--------Proj Exe Dir: /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build/bin
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build
+/usr/bin/cmake -S/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator -B/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build/CMakeFiles /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build/CMakeFiles/progress.marks
+make -f CMakeFiles/Makefile2 all
+make[1]: Entering directory '/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build'
+make -f CMakeFiles/FileProcessor.dir/build.make CMakeFiles/FileProcessor.dir/depend
+make[2]: Entering directory '/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build'
+cd /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build/CMakeFiles/FileProcessor.dir/DependInfo.cmake --color=
+Scanning dependencies of target FileProcessor
+make[2]: Leaving directory '/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build'
+make -f CMakeFiles/FileProcessor.dir/build.make CMakeFiles/FileProcessor.dir/build
+make[2]: Entering directory '/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build'
+[ 50%] Building CXX object CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o
+/usr/bin/c++  -DDEBUG -DLITTLEENDIAN_CPU=1 -D__linux__  -std=c++17  -fexceptions -fno-rtti -fno-math-errno -fno-threadsafe-statics -fmerge-all-constants -fms-extensions -Werror -Wall -ggdb   -o CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o -c /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/FileProcessor.cpp
+[100%] Linking CXX executable FileProcessor
+/usr/bin/cmake -E cmake_link_script CMakeFiles/FileProcessor.dir/link.txt --verbose=1
+/usr/bin/c++  -std=c++17  -fexceptions -fno-rtti -fno-math-errno -fno-threadsafe-statics -fmerge-all-constants -fms-extensions -Werror -Wall -ggdb   CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o  -o FileProcessor
+make[2]: Leaving directory '/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build'
+[100%] Built target FileProcessor
+make[1]: Leaving directory '/home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build'
+/usr/bin/cmake -E cmake_progress_start /home/taccuser/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator/build/CMakeFiles 0
+
+Calculating Execution Time
+
+Execution Time = Endtime - StartTime
+
+Processing .....
+
+
+Done ..
+
+Adding Execution Time to Profiler Data ...
+
+Done...
+
+Output File is prof.csv_with_ExecutionTimeEnd_Start.csv
+
+Execution Time = CompletionTime -  SubmissionTime
+
+Processing .....
+
+
+Done ..
+
+Adding Execution Time to Profiler Data ...
+
+Done...
+
+Output File is prof.csv_with_ExecutionTimeComplete_Dispatch.csv
+
+
+
+ Processing file [ prof.csv_with_ExecutionTimeEnd_Start.csv ]
+ Processed File [prof.csv_with_ExecutionTimeEnd_Start.csv]
+ Found : 99 Kernels
+ Writing Stats Data to File [STATS_prof.csv_with_ExecutionTimeEnd_Start.csv]
+ Finished processing of File [STATS_prof.csv_with_ExecutionTimeEnd_Start.csv]
+
+
+
+ Processing file [ prof.csv_with_ExecutionTimeComplete_Dispatch.csv ]
+ Processed File [prof.csv_with_ExecutionTimeComplete_Dispatch.csv]
+ Found : 99 Kernels
+ Writing Stats Data to File [STATS_prof.csv_with_ExecutionTimeComplete_Dispatch.csv]
+ Finished processing of File [STATS_prof.csv_with_ExecutionTimeComplete_Dispatch.csv]
+Sucessfully Completed
+
+Removing temps
+
+
+Sucessfully Completed
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$ ls
+AddExecutionTimeToProf.sh  FileProcessor.cpp  README.md
+CMakeLists.txt             LICENSE            STATS_prof.csv_with_ExecutionTimeComplete_Dispatch.csv
+FileProcessor              prof.csv           STATS_prof.csv_with_ExecutionTimeEnd_Start.csv
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$ ll
+total 3421756
+drwxrwxr-x 3 taccuser taccuser       4096 Sep 14 19:00 ./
+drwxr-xr-x 3 taccuser taccuser       4096 Sep 14 18:57 ../
+-rwxrwxr-x 1 taccuser taccuser       2541 Sep 14 18:57 AddExecutionTimeToProf.sh*
+-rwxrwxr-x 1 taccuser taccuser       2140 Sep 14 18:57 CMakeLists.txt*
+-rwxrwxr-x 1 taccuser taccuser     515696 Sep 14 18:58 FileProcessor*
+-rw-rw-r-- 1 taccuser taccuser      17906 Sep 14 18:57 FileProcessor.cpp
+drwxrwxr-x 8 taccuser taccuser       4096 Sep 14 18:57 .git/
+-rw-rw-r-- 1 taccuser taccuser       1072 Sep 14 18:57 LICENSE
+-rw-r--r-- 1 taccuser taccuser 3503224346 Sep 14 18:57 prof.csv
+-rw-rw-r-- 1 taccuser taccuser         21 Sep 14 18:57 README.md
+-rw-rw-r-- 1 taccuser taccuser      38303 Sep 14 19:00 STATS_prof.csv_with_ExecutionTimeComplete_Dispatch.csv
+-rw-rw-r-- 1 taccuser taccuser      38113 Sep 14 19:00 STATS_prof.csv_with_ExecutionTimeEnd_Start.csv
+root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
+===== END ============
+
+The result is STATS_prof.csv_with_ExecutionTimeComplete_Dispatch.csv   & STATS_prof.csv_with_ExecutionTimeEnd_Start.csv
+
+
