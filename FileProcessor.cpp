@@ -5,7 +5,10 @@
 #include<vector>
 #include<tuple>
 #include<cstdlib>
+#include<map>
 #include<unordered_map>
+#include<algorithm>
+//#include<ranges> //only in c++ 20
 
 const int MATCH_PERCENTAGE=69;
 const std::string DEBUGENV_VAR("AMF_DEBUG");
@@ -402,16 +405,24 @@ void GetStatsData(std::unordered_map<std::string,std::tuple<unsigned long long,u
 }
 
 void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ofstream& OutputFile){
+	//lets sort the data first
+	std::map<unsigned long long, std::tuple<std::string,unsigned long long,unsigned long>> sortmap;
+	for( const auto& [kernel, data] : StatsData) {
+		unsigned long long avgtime=std::get<0>(data);
+		unsigned long nota=std::get<1>(data);
+		sortmap.insert({ avgtime*nota, { kernel, avgtime, nota}});
+	}
 	int counter=0;
 	OutputFile<<" Index, Kernel, AverageExecutionTime, NumberOfTimeAppearenceInExecution, TotalTimeOfExecution "<<std::endl;
 	counter++;
 	std::string comma(",");std::string codes("\"");
-	for( const auto& [kernel, value] : StatsData ) {
+	for(auto iter = sortmap.rbegin(); iter != sortmap.rend(); ++iter)// since we need the largest ones at the top hence reverse the it
+	{
 		OutputFile<<counter++<<comma<<
-			codes<<kernel<<codes<<comma
-			<<std::get<0>(value)<<comma
-			<<std::get<1>(value)<<comma
-			<<std::get<0>(value)*std::get<1>(value)
+			codes<<std::get<0>(iter->second)<<codes<<comma
+			<<std::get<1>(iter->second)<<comma
+			<<std::get<2>(iter->second)<<comma
+			<<iter->first
 			<<std::endl;
 	}
 }
@@ -432,7 +443,7 @@ void CalculateStats(std::string& FirstI, std::string& Second){
 		<<" Found : "<<StatsData.size() << " Kernels "<<std::endl;
 		InputFile.close();
 		
-		std::string outputfile=std::string("STATS_")+InputArry[counter];
+		std::string outputfile=std::string("OUT_")+InputArry[counter];
 		std::ofstream OutputFile(outputfile.c_str());
 		CHECK_RETURN_ON_FAIL_THIS(OutputFile,InputArry[counter]);
 		

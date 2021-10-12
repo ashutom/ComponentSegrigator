@@ -98,7 +98,6 @@ done
 
 ./$CPPEXE 4 "${OutputFiles[0]}" "${OutputFiles[1]}"
 
-unset AMF_DEBUG
 
 if [ $? -eq 0 ]; then
     echo "Sucessfully Completed"
@@ -113,6 +112,8 @@ rm -rf $CWF
 rm ${OutputFiles[0]}
 rm ${OutputFiles[1]}
 
+
+unset AMF_DEBUG
 
 echo
 echo
