@@ -427,6 +427,122 @@ void PutStatsData(const std::unordered_map<std::string,std::tuple<unsigned long 
 	}
 }
 
+inline bool IsvalidInt(std::string& num){
+	for(char& ch : num){
+		if(ch<'0' || ch>'9') return false;
+	}
+	return true;
+}
+
+
+unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const std::string& line){ //This shall be used for stats mainly
+
+	//assumint the line is of the format:
+	//..........,KernelName,start time, end time, correlationid
+        //std::cout<<" In parseExecutionTimeAndKernelProfV2 : Processing line \n line = ["<<line<<"]"<<std::endl;
+        unsigned long long ExecutionTime=-1;
+        if(line.size()<=0) return ExecutionTime;
+        int i=line.size()-1;
+
+	//Get to the first Comma from the last
+        while(line[i]!=',' && i>=0) {   i--;   }
+        int start_of_first_int = --i;
+        int end_of_first_int = start_of_first_int;
+        int start_of_second_int = start_of_first_int;
+        int end_of_second_int = start_of_first_int;
+        int start_of_kernel = start_of_first_int;
+        int end_of_kernel = start_of_first_int;
+
+        std::string EndTime, StartTime;
+        if(i>=0) {
+                while(i>=0 && line[i]!=',') {   i--;   }
+                if(i>=0 && line[i] == ','){
+			end_of_first_int = i+1;
+                        start_of_second_int = --i;
+                }else{
+                   // should not reach here
+                   std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Endtime parsing " << std::endl;
+		   return ExecutionTime=-1;
+                   //exit(-1);
+                }
+                while(i>=0 && line[i]!=',') {   i--;   }
+                if(i>=0 && line[i] == ','){
+                        end_of_second_int=i+1;
+                }else{
+                   // should not reach here
+                   std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Start time parsing " << std::endl;
+		   return ExecutionTime;
+                   //exit(-1);
+                }
+		//kernel in the file is in codes(  " " ) hence the delimeter is different now
+		--i;
+		if(i>=0 && line[i]=='"'){
+			start_of_kernel= --i;
+			while(i>=0 && line[i]!='"') {   i--;   }
+				if(i>=0 && line[i] == '"'){
+					end_of_kernel=i+1;
+				}else{
+					// should not reach here
+					std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Kernel name parsing " << std::endl;
+					return ExecutionTime; //found error case in the file with this line ==> "1274,15,1,134\",14,6,0"
+					//exit(-1);
+				}
+		}
+		EndTime=line.substr(end_of_first_int,start_of_first_int-end_of_first_int+1);
+		StartTime=line.substr(end_of_second_int,start_of_second_int-end_of_second_int+1);
+		if(!IsvalidInt(EndTime) || !IsvalidInt(StartTime)){
+			 std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Parsing Time data " << std::endl;
+			 return ExecutionTime;
+		}
+                kernel=line.substr(end_of_kernel,start_of_kernel-end_of_kernel+1);
+                unsigned long long ST_ll=std::stoull(StartTime);
+                unsigned long long ET_ll=std::stoull(EndTime);
+                ExecutionTime=ET_ll-ST_ll;
+		if(ExecutionTime<0){
+			std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Time calulations endtime is less than start time  " << std::endl;
+		}
+
+		//Lets print for debugging
+		//std::cout<<" StartTime == ["<<StartTime<<"]"<<std::endl
+		//	<<" EndTime == ["<<EndTime<<"]"<<std::endl
+		//	<<" ExecutionTime == ["<<ExecutionTime<<"]"<<std::endl
+		//	<<" kernel == ["<<kernel<<"]"<<std::endl;
+        }else{
+        	// should not reach here
+                std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<std::endl;
+		//exit(-1);
+        }
+	return ExecutionTime;
+}
+void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ifstream& InputFile){
+
+	std::string firstline;
+	getline(InputFile,firstline); // eat firstline as that is meta data
+	while(!InputFile.eof()){
+		std::string line, kernel;
+		getline(InputFile,line);
+		unsigned long long Exetime=parseExecutionTimeAndKernelProfV2(kernel,line);
+		DEBUG_PRINT("line= " ,line);
+		DEBUG_PRINT("kernel= " ,kernel);
+		DEBUG_PRINT("Exetime= " ,Exetime);
+		if(kernel.length()<2 ||  Exetime< 0 ) continue; //Skipping this kernel as this has wrong computation
+		auto found=StatsData.find(kernel);
+		if(found ==StatsData.end()){
+			StatsData.insert({kernel,std::make_tuple<unsigned long long,unsigned long>(std::forward<unsigned long long&&>(Exetime),1) });
+			//std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
+			//std::cout<<" Inserting New Kernel :=>> [ "<<kernel<<" ] & times = "<<std::get<1>(tmptuple)<<"]<<=="<<std::endl;
+		}else{
+			std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
+			unsigned long times=std::get<1>(tmptuple);
+			unsigned long long currentaverage = std::get<0>(tmptuple);
+			StatsData[kernel]= std::make_tuple<unsigned long long,unsigned long>(
+					((currentaverage*times) + Exetime)/(times+1),times+1
+				);
+			//std::cout<<" Incrementing Kernel  :=>> [ "<<kernel<<" ] occurance to ["<<times+1<< "]<<=="<<std::endl;
+		}
+	}
+}
+
 void CalculateStats(std::string& FirstI, std::string& Second){
 
 	std::vector<std::string> InputArry={ FirstI, Second };
@@ -455,6 +571,31 @@ void CalculateStats(std::string& FirstI, std::string& Second){
 		counter++;
 	}
 }
+
+
+void ConvertV2DataToRequisiteFormat(std::string InputfileName, std::string OutputfileName){
+	//Algorithm
+		// for each line get kernel, start, end , and execution time 
+			// Insert in to set with count
+
+	std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>> StatsData;
+
+	std::cout<<"\n\n\n Processing file [ "<<InputfileName<< " ] "<<std::endl;
+	std::ifstream InputFile(InputfileName.c_str());
+	std::ofstream OutputFile(OutputfileName.c_str());
+	if(!InputFile.is_open() || !OutputFile.is_open()) {
+		std::cerr<<" Could not open "<< InputfileName <<" or "<<OutputfileName<< std::endl;
+	}else{
+		GetStatsDataRocProfV2(StatsData,InputFile);
+		std::cout<<" Writing Stats Data to File ["<<OutputfileName<<"]"<<std::endl;
+		PutStatsData(StatsData,OutputFile);
+		std::cout<<" Finished processing of File ["<<OutputfileName<<"]"<<std::endl;
+		OutputFile.close();
+		InputFile.close();
+	}
+}
+
+
 int main( int argc, char* argv[] ){
 
 	if(argc < 3) {
@@ -510,6 +651,16 @@ int main( int argc, char* argv[] ){
 				std::string If1(argv[2]);
 				std::string If2(argv[3]);
 				CalculateStats(If1,If2);
+			}
+			break;
+		case 5: {
+				if(argc < 4) {
+					std::cerr<< " Insufficient arguments " << std::endl;
+					exit(1);
+				}
+				std::string If1(argv[2]);
+				std::string If2(argv[3]);
+				ConvertV2DataToRequisiteFormat(If1,If2);
 			}
 			break;
 		default : std::cerr<< " Wrong arguments " << std::endl; exit(1);

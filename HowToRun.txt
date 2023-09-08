@@ -168,3 +168,211 @@ root@root:~/PRs/CompSeg/DataForExperiment/DeepSpeed-42-21/ComponentSegrigator$
 The result is STATS_prof.csv_with_ExecutionTimeComplete_Dispatch.csv   & STATS_prof.csv_with_ExecutionTimeEnd_Start.csv
 
 
+
+==== ROCPROF  VERSION 2 ===========
+
+After cloing you shall have the following files :
+
+//ComponentSegrigator$ ls
+AddExecutionTimeToProf.sh  CMakeLists.txt  Comparecsv.py  FileProcessor.cpp  HowToRun.txt  LICENSE  README.md  V2AddExecutionTimeToProf.sh
+
+
+now copy the csv file from rocprofv2 to this folder and then execute as given below logs 
+
+
+==> Logs <==
+
+taccuser@taccuser-B450-AORUS-PRO:~/PRs/ProfilerTool/ComponentSegrigator$ ./V2AddExecutionTimeToProf.sh
+
+
+Profiler Output File given =
+File is empty or does not exists
+taccuser@taccuser-B450-AORUS-PRO:~/PRs/ProfilerTool/ComponentSegrigator$ ./V2AddExecutionTimeToProf.sh results_kt_prof.csv.csv
+
+
+Profiler Output File given = results_kt_prof.csv.csv
+
+Creating working dir
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+
+Build Configuration:
+-----------BuildType:
+------------Compiler: /usr/bin/c++
+-------------Version: 9.4.0
+--------Proj Src Dir: /home/taccuser/PRs/ProfilerTool/ComponentSegrigator
+--------Proj Bld Dir: /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build
+--------Proj Lib Dir: /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build/lib
+--------Proj Exe Dir: /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build/bin
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build
+/home/taccuser/.local/lib/python3.8/site-packages/cmake/data/bin/cmake -S/home/taccuser/PRs/ProfilerTool/ComponentSegrigator -B/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build --check-build-system CMakeFiles/Makefile.cmake 0
+/home/taccuser/.local/lib/python3.8/site-packages/cmake/data/bin/cmake -E cmake_progress_start /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build/CMakeFiles /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build//CMakeFiles/progress.marks
+make  -f CMakeFiles/Makefile2 all
+make[1]: Entering directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build'
+make  -f CMakeFiles/FileProcessor.dir/build.make CMakeFiles/FileProcessor.dir/depend
+make[2]: Entering directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build'
+cd /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build && /home/taccuser/.local/lib/python3.8/site-packages/cmake/data/bin/cmake -E cmake_depends "Unix Makefiles" /home/taccuser/PRs/ProfilerTool/ComponentSegrigator /home/taccuser/PRs/ProfilerTool/ComponentSegrigator /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build/CMakeFiles/FileProcessor.dir/DependInfo.cmake --color=
+make[2]: Leaving directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build'
+make  -f CMakeFiles/FileProcessor.dir/build.make CMakeFiles/FileProcessor.dir/build
+make[2]: Entering directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build'
+[ 50%] Building CXX object CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o
+/usr/bin/c++ -DDEBUG -DLITTLEENDIAN_CPU=1 -D__linux__  -std=c++17  -fexceptions -fno-rtti -fno-math-errno -fno-threadsafe-statics -fmerge-all-constants -fms-extensions -Werror -Wall -ggdb -MD -MT CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o -MF CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o.d -o CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o -c /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/FileProcessor.cpp
+[100%] Linking CXX executable FileProcessor
+/home/taccuser/.local/lib/python3.8/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/FileProcessor.dir/link.txt --verbose=1
+/usr/bin/c++ -std=c++17  -fexceptions -fno-rtti -fno-math-errno -fno-threadsafe-statics -fmerge-all-constants -fms-extensions -Werror -Wall -ggdb CMakeFiles/FileProcessor.dir/FileProcessor.cpp.o -o FileProcessor
+make[2]: Leaving directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build'
+[100%] Built target FileProcessor
+make[1]: Leaving directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build'
+/home/taccuser/.local/lib/python3.8/site-packages/cmake/data/bin/cmake -E cmake_progress_start /home/taccuser/PRs/ProfilerTool/ComponentSegrigator/build/CMakeFiles 0
+
+
+
+ Processing file [ results_kt_prof.csv.csv ]
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 464 Problem with Endtime parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Writing Stats Data to File [Processed_File.csv]
+ Finished processing of File [Processed_File.csv]
+Sucessfully Completed
+
+Removing temps
+
+
+Sucessfully Completed
+//ComponentSegrigator$
+
+===> log ends <===
+
+
+
+
+
+
