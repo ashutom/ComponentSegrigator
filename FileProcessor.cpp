@@ -517,6 +517,7 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned long long,unsigned long>>& StatsData, std::ifstream& InputFile){
 
 	std::string firstline;
+	unsigned long long skippedrows=0;
 	getline(InputFile,firstline); // eat firstline as that is meta data
 	while(!InputFile.eof()){
 		std::string line, kernel;
@@ -525,7 +526,11 @@ void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned lo
 		DEBUG_PRINT("line= " ,line);
 		DEBUG_PRINT("kernel= " ,kernel);
 		DEBUG_PRINT("Exetime= " ,Exetime);
-		if(kernel.length()<2 ||  Exetime< 0 ) continue; //Skipping this kernel as this has wrong computation
+		if(kernel.length()<2 ||  Exetime< 0 ){
+			std::cout<<" Skipping this row = [ "<<line<<" ]"<<std::endl;
+			skippedrows++;
+			continue; //Skipping this kernel as this has wrong computation
+		}
 		auto found=StatsData.find(kernel);
 		if(found ==StatsData.end()){
 			StatsData.insert({kernel,std::make_tuple<unsigned long long,unsigned long>(std::forward<unsigned long long&&>(Exetime),1) });
@@ -541,6 +546,7 @@ void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned lo
 			//std::cout<<" Incrementing Kernel  :=>> [ "<<kernel<<" ] occurance to ["<<times+1<< "]<<=="<<std::endl;
 		}
 	}
+	std::cout<<"\n\n\n Processed Whole Input File. Total rows skipped == [ "<<skippedrows<<" ]\n\n\n"<<std::endl;
 }
 
 void CalculateStats(std::string& FirstI, std::string& Second){
