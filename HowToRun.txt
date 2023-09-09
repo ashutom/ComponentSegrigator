@@ -240,125 +240,264 @@ make[1]: Leaving directory '/home/taccuser/PRs/ProfilerTool/ComponentSegrigator/
 
 
 
+
  Processing file [ results_kt_prof.csv.csv ]
+ Skipping this row = [  ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 1274,15,1,134",14,6,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 1297,4,1,1368,736,7",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 1321,4,2,122,736,9528,6144,256,2048,112,100,132,112,64,14049288",12,25,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ ",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 1409,17,1,1480,749,9387,12845056,256,8704,0,28,4,48",5,12,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 5554,17,1,5732,749,9387,168192,256,32768,0,92,",18,20,0 ]
+ Skipping this row = [ 5819,4,1,6004,736,9528,73728,256,0,0,8,0,32,64,140492882469888,5819,"v",21,21,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 5925,4,1,6115,736,736,51380224,256,0,0,12,4,32,64,",3,4720974126578501632,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 5969,4,1,6159,736,9528,16384,128,0,0,40,0,",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 8712,15,1,8954,747,9483,512,256,0,0,8,0,32,",85083341317126,85083341317606,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 8736,15,1,8978,747,747,163840,512,0,0,24,0,32,64,139834691090432,8736,"void at::nativ1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 8753,15,1,8995,747,747,163840,512,0,0,24,0,32,64,1398346",3,140099609684432,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 8828,10,1,9073,742,9550,262144,256",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 10479,10,1,10754,742,9550,256,256,0",34,40,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 10500,15,1,10773,747,9483,205520896,256,0,0,16,0,32,64",39,39,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 12755,11,1,13075,743,9607,256,256,0,0,8,0,32,64,140310438634496,12755,"void at::native::modern::elementwise_kernel<at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char*, 2>>(int, at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at,46,0 ]
+ Skipping this row = [ 12823,9,1,13140,741,9585,253440,256,18432,0,72,64,96,64,140340274576768,1282,0 ]
+ Skipping this row = [ 13441,15,1,13774,747,747,25690112,256,0,0,12,4,32,64,139834691093504,13441,"v",51,51,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 13537,15,1,1",51,51,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 31176,5,1,31855,737,9491,51380224,256,0,0,16,0,32,64,6,1,31857,738,9510,294912,256,20480,0,72,64,32,64,140411301924",113,116,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 31338,8,1,32021,740,740,262144,128,0,0,",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 31426,5,1,32110,737,9491,25690112,256,2560,0,20,4,48,64,139",120,120,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 31486,8,",116,120,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 34515,5,1,35259,737,9491,25690112,256,2560,0,20,4,48,64,13988644",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 34601,9,1,35345,741,9585,2304,256,0,0,8,0,32,64,1403",133,128,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 37607,9,1,38409,741,9585,1048576,256,2560,0,20,4,48,64,140340274551168,376",142,159,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42034,5,1,42923,737,9491,1048576,256,25",159,138,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42064,5,1,42953,737,9491,147456,256,0,0,8,0,32",161,159,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 42077,9,1,42964,741,9585,73728,256,0,0,8,0,32,64,140340274591232,42077,"void at::native::modern::elementwise_kernel<at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char*, 2>>(int, at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<,158,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42298,5,1,43192,737",163,157,0 ]
+ Skipping this row = [ 42308,9,1,43200,741,9585,256,256,0,0,8,0,32,64,140340274572160,42308,"void at::native::modern::elementwise_kernel<at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char*, 2>>(int, at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char*, 2>) (.kd)",",157,151,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42344,9,1,43236,741,9585,12845056,256,16384,0,56,",82,162,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42388,9,1,43284,741,9585,256,25",163,152,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 4242",3,14583892039109851392,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42511,9,1,43408,741",167,163,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42748,",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42782,9,1,43684,741,9585,262144,512,2560,112,56",167,188,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42812,9,1,43714,741,958",165,160,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 42828,5,1,43732,737,9491,256,256,0,0,8,0,32,64,139886448755712,42828,"void at::native::modern::elementwise_kernel<at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char*, 2>>(int, at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at:,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 42909,5,1,43",148,137,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 43020,9,1,43927,741,9585,262144,256,0,0,16,0,3",1,1,0 ]
+ Skipping this row = [ 43683,8,1,44605,740,9620,256,256,0,0,8,0,32,64,139703440815488,41,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 43867,4,1,44792,736,9528,51380224,256,0,0,16,0,32,64,140492882461952",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44005,9,1,44932,741,741,1048576,256,2560,0,20,4,48,64,1",176,187,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44071,8,1,44999,740,9620,6815",169,169,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44128,15,1,45056,747,9483,1",180,169,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44164,15,1,45092,747,9483,256,256,0,0,8,0,3",168,169,0 ]
+ Skipping this row = [ 44345,5,1,45279,737,9491,6815744,256,2560,0,20,4,48,64,139886448743296,44345,"batched_transpose_64x16_pack_4x1_ediv_2x1_half.kd",",3,5457528063497391104,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44330,10,1,45265,742,9550,1048576,256,2560,0,20,4,4",3,14583892039109851392,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44496,5,1,45434,737,737,163840,512,0,",85140814621077,85140814621717,4993752342975104336 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44369,10,1,45304,742,95",170,161,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44429,15,1,45362,747,9483,205520896,256,0,0,16,0,32,6",171,170,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44491,10,1,454",3,5457528063497391104,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44539,10,1,45479,742,742,",171,174,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44602,10,1,45542,742,9550,1048576,2",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44626,15,1,45564,747,9483,25690112,256",171,153,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44641,10,1,45581,742,9550,256,256,0,0,",173,163,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44707,10,1,45650,742,9550,51380480,256,",163,167,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44732,15,1,45674,747,747,1638",168,166,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 44870,10,1,45815,742,9550,589824,256,0,0,8,0,32,64,140095285264640,44870,"void at::native::modern::elementwise_kernel<at::native::AUnaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float>>, at::d,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44972,10,1,45921,742,9550,512,256",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 44996,15,1,45943,747,747,163840,512,0,0,",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 45067,10,",1,1,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 45136,10,1,46086,742,9550,802816,256,32768,0,80,128,96,64,140095285243392,45136,"igemm_bwd_gtcx2_nhwc_fp16_bx0_ex1_bt128x256x32_wt32x32x8_ws170,166,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 45160,15,1,46108,747,9483,51380224,256,0,0,16,0,32,64,139834691092352,45160,"void at::native::modern::elementwise_kernel<at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, void at::native::(anonymous namespace)::threshold_kernel_impl<c10::Half>(at::TensorIteratorBase&, c10::Half, c10::Half)::'l ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 45259,15,1,46211,747,747,163840,512,0,0,24,0,32,64,13983",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 45264,10,1,46218,742,742,163840,512,0,0,24,0",3,5457528063497391104,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 45665,15,",174,169,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 45768,15,1,46730,747,74",172,170,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 51138,5,1,52202,737,9491,6422528,256,8704,0,28,4,48,6",187,187,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 51208",177,197,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 51226,5,1,52294,737,737,61952,512,0,0,24,0",3,5686370511450375680,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 51337,5,1,52406,737,949",197,189,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 55353,8,1,56505,740,740,163840,512,0,0,16,0,32,64,139703440817408,55353,"void at::native::(anonymous namespace)::multi_tensor_apply_kernel<at::native::(anonymous namespace)::TensorListMetadata<1>, at::native::(anonymous namespace)::BinaryOpScalarFunctor<c10::Half, 1, 1, 0>, std::multiplies<float>, f,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 55717,7,2,3487,739,9457,6144,256,2048,112,100,132,112,64,139731173527296,55717",214,205,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 55862,8,1,57024,740",210,214,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 56053,8,1,57216,740,9620,131072,256,2560,0,20,4,4",215,198,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 56259,9,1,57426,741,9585,6815744,256,2560,0,20,4,4",192,235,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 56251,6,1,57418,738,9510,58",211,213,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 56348,16,1,57516,748,9423,2048,256,0,0,12,4,32,64,13998",211,213,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 56754,9,1,57931,741,9585,1605632,256,",85159715260175,85159715260815,11656072310779674624 ]
+ Skipping this row = [ 56614,16,1,57788,748,9423,512,256,0,0,8,0,32,64,139986346592768,56614,"__amd_ro ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 56887,16,1,58069,748,9423,295168,256,0,0,8,0,32,64,13998",220,217,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 57381,16,1,5856",215,217,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 63126,5,1,64429,737,737,61952,512,0,0,16,0,32,64,",3,13307089654073759488,0 ]
+ Skipping this row = [ 63406,5,1,64714,737,737,61952,512,0,0,24,0,32,64,139886448763392,63406,"void at::native::(anonymous namespace)::multi_tensor_apply_kernel<at::native::(anonymous namespace)::TensorListMetadata<2>, at::native::(anonymous namespace)::BinaryOpListAlphaFunctor<c10::Half, 2, 2, 0>, std::plus<float>, float>(at::native::(anonymous namespace)::TensorListMetadata<2>, at::native::(anonymous namespace)::BinaryOpListAlphaFunctor<c10::Half, 2, 2, 0>, std::plus<float>, float) (.kd)",",245,238,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 63254,18,1,64559,",239,241,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 63493,5,1,64802,737,9491,33554432,256,0,0,28,4,80,64,139886448796672,63493,"void at::native::(anonymous namespace)::max_pool_backward_nchw<c10::Half, float>(c10::Half const*, long const*, int, long, long, long, in230,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 63360,18,1,64",239,235,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 63777,9,1,65089,741,9585,2569",235,244,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 67225,16,1,68603,748,9423,84480,256,16384,0,",255,252,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 67654,9,1,69041,741,9585,65536,256,0,0,8,0,16,64,1403402",252,255,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 6768",85178862418122,85178862418762,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 67495,16,1,68880,748,9423,8388864,256,",254,241,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 67631,16,2,4223,748,9423,61",261,254,0 ]
+ Skipping this row = [ 67953,16,1,69346,748,9423,12845056,256,8704,0,28,4,48,64,139986346579968,67953,"",257,252,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 68225,9,1,69622,741,9585,12845056,256",262,246,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 681",260,259,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 68461,9,1,69863,741,9585,25690112,256,2560,0,2",257,262,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 68297,16,1,69699,748,748,61952,512,0,0,24,0,32,64,139986346616320,68297,"void at::native::(anonymous namespace)::multi_tensor_apply_kernel<at::native::(anonymous namespace)::Te1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 72400,16",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 72568,16,1,740",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 72850,6,1,74337,738,9510,256",1,1,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 72719,16,1,74206,748,748,163840,512,0,0,24,0,32,64,139986346576896,72719,"void at::native::(anonymous namespace)::multi_tensor_apply_kernel<at::native::(anonymous namespace)::TensorListMetadata<2>, at::native::(anonymous namespace)::BinaryOpListAlphaFunctor<c10::Half, 2, 2, 0>, std::plus<float>, float>(at::native::(anonymous namespace)::TensorListMetadata<2>, at::native::(anonymous namespace)::BinaryOpListAlphaFunctor<c10::Half, 2, 2, 0>, std::plus<float>, float) (.kd)",139990662564672,82136623780618 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 72976,6,1,74467,738,738,163840,512,0,0,24,0,32,6",273,283,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 76809,4,1,78374,736,9528,51380224,256,8704,0,28,4,48,",286,283,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77201,8,1,78774,740,9620,24576,256,62976,0,1",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77308,4,1,78883,73",290,230,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 773",3,11513538800349460736,0 ]
+ Skipping this row = [ 77445,8,1,79023,740,740,16384,256,51200,0,128,144,80,64,139703440769024,77445,"C",1,1,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77528,8,1,79106,740,962",297,290,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77578,4,1,79158,736,9528,1638400,512,2560,112,56,0,80,64,140492882449280,77578",293,294,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77597,8,1,79178,740,9620,2304,256,0,0,8,0,32,64,",286,277,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77747,4,1,79335,736,9528,27648,256,36864,0,104,256,96,64",291,285,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ ",289,289,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 77949,4,1,79544,736,736,1048576,256,25",310,305,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 78057,8,1",287,220,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 78435,8,1,8",302,114,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 80203,4,1,81842,736,9528,37120,256,0,0,8,0,32",167,308,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 80468,4,1,82112,736,736,163840,512,0,0,24,0,32,64,140492882445568,80468,"void at::native::(anonymous namespace)::multi_tensor_apply_kernel<at::native::(anonymous namespace)::TensorListMetadata<3>, at::native::(anonymous namespace)::BinaryOpListAlphaFunctor<c10::Half, 3, 2, 2>, std::plus<float>, float>(at::native::(anony ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 8074",311,310,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 80824,8,2,5031,740,9620,6144,256,2048,112,100,132,112,64,139703440800896,80824,"ncclKernel_SendRecv_RING_SIMPLE_Sum_int8_t(ncclDevComm*, unsigned long, ncclWork*) (.kd)",8301,0 ]
+ Skipping this row = [ 81144,4,1,82799,736,9528,262144,512,25 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ ::'lambda6'()::operator()() const::'lambda'(c10::Half), at::detail::Array<char*, 2>>(int, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::'lambda'()::operator()() const::'lambda6'()::operator()() const::'lambda'(c10::Half), at::detail::Array<char*, 2>) (.kd)",319,307,0 ]
  FATAL Error in calculating the data at 494 Problem with Parsing Time data
+ Skipping this row = [ 82842,10,1,84532,742,742,3211264,256,16384,0,60,68,64,64,140095285287808,82842,"i,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ int, int, int, int, int, int, int, int, c10::Half*, long*) (.kd)",307,285,0 ]
  FATAL Error in calculating the data at 464 Problem with Endtime parsing
+ Skipping this row = [ 8382149987360032512,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ 83105,14,1,84810,746,874,786432,256,0,0,8,0,3",8213662378061812342,28,0 ]
  FATAL Error in calculating the data at 486 Problem with Kernel name parsing
+ Skipping this row = [ r_copyBuffer.kd",1,1,0 ]
+ Skipping this row = [  ]
+
+
+
+ Processed Whole Input File. Total rows skipped == [ 131 ]
+
+
+
  Writing Stats Data to File [Processed_File.csv]
  Finished processing of File [Processed_File.csv]
 Sucessfully Completed
@@ -367,6 +506,7 @@ Removing temps
 
 
 Sucessfully Completed
+
 //ComponentSegrigator$
 
 ===> log ends <===
