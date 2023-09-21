@@ -63,6 +63,206 @@ void DebugPrintImpl(int line, const char* funName, Args&& ...args)
                                 } while(0);
 
 
+inline int getnumfromdigit(char inc){ 	return (int) ( inc - '0' ); }
+inline char getcharofdigit(int digit){ 	return (char) ( digit + '0' ); }
+
+class LargeUnsignedInts{
+
+	void ConvertFromULLToOurFormat(unsigned long long);
+	void ConvertFromStringToOurFormat(std::string );
+	void CorrectFormatAfterOperation();	//removes zeros from front of string
+	//void borrowandmodify(unsigned long long thiscounter);
+        int  borrowandmodify(unsigned long long thiscounter);
+	std::string mNumber;
+	public:
+		LargeUnsignedInts(unsigned long long num=0) { ConvertFromULLToOurFormat(num); }
+		LargeUnsignedInts(std::string num) { ConvertFromStringToOurFormat(num); }
+		void Add(const LargeUnsignedInts& that);       //result will be the number to which 'that' is added
+		int substract(const LargeUnsignedInts& that); //result will be the number from which 'that' is substracted 
+		//void multiply(const LargeUnsignedInts& that);  //result will be the number to which 'that' is multiplied
+		std::string getNumber() const	{ return mNumber; }
+		unsigned long long length() const { return mNumber.length(); } 
+		char operator[](unsigned long long int id) const;
+		bool operator<(const LargeUnsignedInts& other);
+		bool operator==(const LargeUnsignedInts& other);
+		bool operator>(const LargeUnsignedInts& other) { return !(*this<other ||  *this==other); }
+		bool operator<(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this<tmp;  }
+		bool operator==(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this==tmp;  }
+		bool operator>(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this>tmp; }
+
+};
+
+
+char LargeUnsignedInts::operator[](unsigned long long int id) const {
+	if( id>=0 && id<mNumber.length() ) {
+		return mNumber[id];
+	} else {
+		throw std::runtime_error(" Index out of bouds for operator [] for class LargeUnsignedInts ");
+	}
+}
+
+bool LargeUnsignedInts::operator==(const LargeUnsignedInts& other){
+
+	if( other.length() != mNumber.length()) return false;
+	for(unsigned long long i=0;i<mNumber.length();i++){
+		if(mNumber[i] != other[i]){
+			return false;
+		}
+	}
+	return true;
+}
+
+
+bool LargeUnsignedInts::operator<(const LargeUnsignedInts& other){
+
+	if(other.length()>mNumber.length()) return true;
+	if(other.length()<mNumber.length()) return false;
+	if(other.length()==mNumber.length()){
+		LargeUnsignedInts num(mNumber);
+		if(-1 == num.substract(other)) return true;
+	}
+	return false;
+}
+
+void LargeUnsignedInts::ConvertFromULLToOurFormat(unsigned long long Other){
+	std::string s;
+	while(Other){
+		int digit=Other%10;
+		char ch = '0'+ digit;
+		s= ch + s;
+		Other=Other/10;
+	}
+	mNumber=s;
+}
+
+void LargeUnsignedInts::ConvertFromStringToOurFormat(std::string other){
+
+	if(0 == other.length()){
+		mNumber.clear();
+		mNumber=mNumber + '0';
+		return;
+	}
+
+	for(unsigned long long i=0;i<other.length();i++){
+		if( other[i]<'0' || other[i]>'9'){
+			std::cerr<<" Fatal!!, conversion of ["<<other<<"] To LargeUnsignedInts Failed because of unwanted char in the string" ;
+			throw std::runtime_error(" Found a char which is not in range 0 - 9 ");
+		}
+	}
+	mNumber=other;
+}
+
+
+void LargeUnsignedInts::Add(const LargeUnsignedInts& that) {
+	std::string s;
+	std::string toadd=that.getNumber();
+	unsigned long long thiscounter=mNumber.length()-1;
+	unsigned long long thatcounter=toadd.length()-1;
+	int left, right, thiscarry, nextcarry;
+	left=right=thiscarry=nextcarry=0;
+	while(thatcounter>=0 && thiscounter>=0) {
+		left = 0 + (int) (mNumber[thiscounter]-'0');
+		right = 0 + (int) (toadd[thatcounter]-'0');
+		if(left+right + thiscarry > 9 ) { nextcarry = 1; }
+		else { nextcarry = 0 ; };
+		left = left + right + thiscarry;
+		left = left%10;
+		thiscarry=nextcarry;
+		char ch = '0' + left;
+		s= ch + s;
+		if(thiscounter==0 || thatcounter==0) break; //we need to adapt to this because the type of counter is ULL so, it doesnt gets negative
+		thatcounter--;
+		thiscounter--;
+	}
+	while(thatcounter>=0){
+		right = 0 + (int) (toadd[thatcounter]-'0');
+		if(right+thiscarry > 9 ) { nextcarry = 1; }
+		else { nextcarry = 0 ; };
+		right = right + thiscarry;
+		right = right%10;
+		thiscarry=nextcarry;
+		char ch = '0' + right;
+		s= ch + s;
+		if(thatcounter==0) break; //we need to adapt to this because the type of counter is ULL so, it doesnt gets negative
+		thatcounter--;
+	}
+	while(thiscounter>=0){
+		left = 0 + (int) (mNumber[thiscounter]-'0');
+		if(left+thiscarry > 9 ) { nextcarry = 1; }
+		else { nextcarry = 0 ; };
+		left = left + thiscarry;
+		left = left%10;
+		thiscarry=nextcarry;
+		char ch = '0' + left;
+		s= ch + s;
+		if(thiscounter==0) break; //we need to adapt to this because the type of counter is ULL so, it doesnt gets negative
+		thiscounter--;
+	}
+	mNumber=s;
+}
+
+void LargeUnsignedInts::CorrectFormatAfterOperation(){
+	unsigned long long counter=0;
+	for(;counter<mNumber.length();counter++){
+		if(mNumber[counter] != '0'){
+			break;
+		}
+	}
+	if(counter>=mNumber.length()){
+		mNumber.clear();
+		mNumber=mNumber + '0';
+	}else if(counter>0){
+		mNumber = mNumber.substr(counter,mNumber.length()-counter);
+	}
+}
+
+int LargeUnsignedInts::borrowandmodify(unsigned long long thiscounter){
+	unsigned long long tempc=thiscounter-1;
+        while(tempc>=0){
+		int num=getnumfromdigit(mNumber[tempc]);
+		if(num>0){
+			mNumber[tempc]=getcharofdigit(num-1);
+			for(unsigned long long i=tempc+1;i<thiscounter;i++){
+				mNumber[i]='9';
+			}
+			return 0;
+		}else if(num==0 && tempc==0){
+			return -1; //should never come here
+		}
+		if(tempc==0) break; //we need to adapt to this because the type of counter is ULL so, it doesnt gets negative
+		tempc--;
+	}
+	return -1; //should never come here
+}
+
+int LargeUnsignedInts::substract(const LargeUnsignedInts& that) {  //result will be the number from which 'that' is substracted 
+	int RetVal=-1;
+	if(that.length()>mNumber.length()) return RetVal;
+	if((that.length()==mNumber.length()) && (mNumber[0]<that[0])) return RetVal;
+
+	std::string s=mNumber;
+	unsigned long long thatcounter=that.length()-1;
+	unsigned long long thiscounter=mNumber.length()-1;
+
+	while(thatcounter>=0){
+		int l,r;
+		l=getnumfromdigit(mNumber[thiscounter]);
+		r=getnumfromdigit(that[thatcounter]);
+		if(l-r>=0){
+			mNumber[thiscounter]=getcharofdigit(l-r);
+		}else{
+			if(thiscounter==0) return RetVal;
+			if(-1 == borrowandmodify(thiscounter)) return RetVal;
+			mNumber[thiscounter]=getcharofdigit(10+l-r);
+		}
+		if(thiscounter==0 || thatcounter==0) break; //we need to adapt to this because the type of counter is ULL so, it doesnt gets negative
+		thiscounter--;
+		thatcounter--;
+	}
+	CorrectFormatAfterOperation();
+	return RetVal=0;
+}
+
 
 std::string ExtractLastColFromline(const std::string& line){
         std::string retval;
@@ -440,7 +640,7 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 	//assumint the line is of the format:
 	//..........,KernelName,start time, end time, correlationid
         //std::cout<<" In parseExecutionTimeAndKernelProfV2 : Processing line \n line = ["<<line<<"]"<<std::endl;
-        unsigned long long ExecutionTime=-1;
+        unsigned long long ExecutionTime=0;
         if(line.size()<=0) return ExecutionTime;
         int i=line.size()-1;
 
@@ -462,8 +662,7 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
                 }else{
                    // should not reach here
                    std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Endtime parsing " << std::endl;
-		   return ExecutionTime=-1;
-                   //exit(-1);
+		   return ExecutionTime;
                 }
                 while(i>=0 && line[i]!=',') {   i--;   }
                 if(i>=0 && line[i] == ','){
@@ -472,7 +671,6 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
                    // should not reach here
                    std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Start time parsing " << std::endl;
 		   return ExecutionTime;
-                   //exit(-1);
                 }
 		//kernel in the file is in codes(  " " ) hence the delimeter is different now
 		--i;
@@ -485,7 +683,6 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 					// should not reach here
 					std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Kernel name parsing " << std::endl;
 					return ExecutionTime; //found error case in the file with this line ==> "1274,15,1,134\",14,6,0"
-					//exit(-1);
 				}
 		}
 		EndTime=line.substr(end_of_first_int,start_of_first_int-end_of_first_int+1);
@@ -495,22 +692,39 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 			 return ExecutionTime;
 		}
                 kernel=line.substr(end_of_kernel,start_of_kernel-end_of_kernel+1);
-                unsigned long long ST_ll=std::stoull(StartTime);
-                unsigned long long ET_ll=std::stoull(EndTime);
-                ExecutionTime=ET_ll-ST_ll;
-		if(ExecutionTime<0){
-			std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Time calulations endtime is less than start time  " << std::endl;
+
+		LargeUnsignedInts LnumStartTime(StartTime);
+		LargeUnsignedInts LnumEndTime(EndTime);
+		if(LnumEndTime.substract(LnumStartTime)<0){
+			std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" LargeUnsignedInts == Problem with Time calulations endtime is less than start time  " << std::endl;
+			kernel.clear();
+			return ExecutionTime;
 		}
+		
+		if(LnumEndTime.getNumber().length()>19){ //ULL is 18 digit in decimal & 64 bits in binary
+			std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Execution time is ["<<LnumEndTime.getNumber()<<"] ## BEYOND ULL SIZE  " << std::endl;
+			kernel.clear();
+			return ExecutionTime;
+		}
+
+                ExecutionTime=stoull(LnumEndTime.getNumber());
 
 		//Lets print for debugging
 		//std::cout<<" StartTime == ["<<StartTime<<"]"<<std::endl
 		//	<<" EndTime == ["<<EndTime<<"]"<<std::endl
 		//	<<" ExecutionTime == ["<<ExecutionTime<<"]"<<std::endl
+		//	<<" ExecutionTime == ["<<LnumEndTime.getNumber()<<"]  ####  from LargeUnsignedInts  "<<std::endl
 		//	<<" kernel == ["<<kernel<<"]"<<std::endl;
+		//more debug
+		//LargeUnsignedInts convertednum(ExecutionTime);
+		//if(convertednum == LnumEndTime){
+		//	std::cout<<" convertednum == LnumEndTime <============"<<std::endl;
+		//}else{
+		//	std::cout<<" @@@@@@@@@@@@@@@@@   PROBLEM   @@@@@@@@@@@@@   Class value is not same as Execution value @@@@@@@@@@@@@@@  "<<std::endl;
+		//}
         }else{
         	// should not reach here
                 std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<std::endl;
-		//exit(-1);
         }
 	return ExecutionTime;
 }
@@ -526,7 +740,7 @@ void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned lo
 		DEBUG_PRINT("line= " ,line);
 		DEBUG_PRINT("kernel= " ,kernel);
 		DEBUG_PRINT("Exetime= " ,Exetime);
-		if(kernel.length()<2 ||  Exetime< 0 ){
+		if(kernel.length()<2){
 			std::cout<<" Skipping this row = [ "<<line<<" ]"<<std::endl;
 			skippedrows++;
 			continue; //Skipping this kernel as this has wrong computation
