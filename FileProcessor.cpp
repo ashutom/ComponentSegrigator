@@ -83,9 +83,9 @@ class LargeUnsignedInts{
 		std::string getNumber() const	{ return mNumber; }
 		unsigned long long length() const { return mNumber.length(); } 
 		char operator[](unsigned long long int id) const;
-		bool operator<(const LargeUnsignedInts& other);
-		bool operator==(const LargeUnsignedInts& other);
-		bool operator>(const LargeUnsignedInts& other) { return !(*this<other ||  *this==other); }
+		bool operator<(const LargeUnsignedInts& other)	{ return mNumber < other.getNumber();	}
+		bool operator==(const LargeUnsignedInts& other)	{ return mNumber == other.getNumber();	}
+		bool operator>(const LargeUnsignedInts& other)	{ return mNumber > other.getNumber();	}
 		bool operator<(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this<tmp;  }
 		bool operator==(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this==tmp;  }
 		bool operator>(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this>tmp; }
@@ -99,29 +99,6 @@ char LargeUnsignedInts::operator[](unsigned long long int id) const {
 	} else {
 		throw std::runtime_error(" Index out of bouds for operator [] for class LargeUnsignedInts ");
 	}
-}
-
-bool LargeUnsignedInts::operator==(const LargeUnsignedInts& other){
-
-	if( other.length() != mNumber.length()) return false;
-	for(unsigned long long i=0;i<mNumber.length();i++){
-		if(mNumber[i] != other[i]){
-			return false;
-		}
-	}
-	return true;
-}
-
-
-bool LargeUnsignedInts::operator<(const LargeUnsignedInts& other){
-
-	if(other.length()>mNumber.length()) return true;
-	if(other.length()<mNumber.length()) return false;
-	if(other.length()==mNumber.length()){
-		LargeUnsignedInts num(mNumber);
-		if(-1 == num.substract(other)) return true;
-	}
-	return false;
 }
 
 void LargeUnsignedInts::ConvertFromULLToOurFormat(unsigned long long Other){
@@ -298,7 +275,19 @@ void LargeUnsignedInts::multiply(const LargeUnsignedInts& that) {   //result wil
 	this->mNumber=TempInt.getNumber();
 
 }
+/*
+void LargeUnsignedInts::Divide(const LargeUnsignedInts& divisor) {   //Quotient will be stored in the Dividend and Remainder will be dropped
 
+	std::string Dividend = this->getNumber();
+	int starti, endi;
+	starti=endi=0;
+	vector<std::string> TableofDividen;
+	for(int i=0;i<=10;i++){
+
+	}
+
+}
+*/
 
 std::string ExtractLastColFromline(const std::string& line){
         std::string retval;
