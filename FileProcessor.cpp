@@ -71,7 +71,7 @@ class LargeUnsignedInts{
 	void ConvertFromULLToOurFormat(unsigned long long);
 	void ConvertFromStringToOurFormat(std::string );
 	void CorrectFormatAfterOperation();	//removes zeros from front of string
-	//void borrowandmodify(unsigned long long thiscounter);
+	void multiplyOneDigit(std::string& Num, int n);
         int  borrowandmodify(unsigned long long thiscounter);
 	std::string mNumber;
 	public:
@@ -79,7 +79,7 @@ class LargeUnsignedInts{
 		LargeUnsignedInts(std::string num) { ConvertFromStringToOurFormat(num); }
 		void Add(const LargeUnsignedInts& that);       //result will be the number to which 'that' is added
 		int substract(const LargeUnsignedInts& that); //result will be the number from which 'that' is substracted 
-		//void multiply(const LargeUnsignedInts& that);  //result will be the number to which 'that' is multiplied
+		void multiply(const LargeUnsignedInts& that);  //result will be the number to which 'that' is multiplied
 		std::string getNumber() const	{ return mNumber; }
 		unsigned long long length() const { return mNumber.length(); } 
 		char operator[](unsigned long long int id) const;
@@ -261,6 +261,42 @@ int LargeUnsignedInts::substract(const LargeUnsignedInts& that) {  //result will
 	}
 	CorrectFormatAfterOperation();
 	return RetVal=0;
+}
+
+void LargeUnsignedInts::multiplyOneDigit(std::string& Num, int n) {
+
+	int carry=0;
+	for(int i=Num.length()-1;i>=0;i--){
+		int mul=((int)(Num[i]-'0')*n)+carry;
+		carry=mul/10;
+		int numchar=mul%10;
+		Num[i]=(char) numchar +'0';
+	}
+	std::string carry_string;
+
+	while(carry){
+		int numchar=carry%10;
+		carry=carry/10;
+		char char_digit = (char)numchar + '0';
+		carry_string = char_digit + carry_string;
+	}
+	Num = carry_string + Num;
+}
+
+
+void LargeUnsignedInts::multiply(const LargeUnsignedInts& that) {   //result will be the number to which 'that' is multiplied
+
+	LargeUnsignedInts TempInt;
+	for(int i=that.length()-1;i>=0;i--){
+		std::string ThisMultiplyer=this->getNumber();
+		multiplyOneDigit(ThisMultiplyer,(int)(that[i]-'0'));
+		for(int j=i-that.length()+1;j>0;j--){
+			ThisMultiplyer=ThisMultiplyer + '0';
+		}
+		TempInt.Add(LargeUnsignedInts(ThisMultiplyer));
+	}
+	this->mNumber=TempInt.getNumber();
+
 }
 
 
