@@ -2,9 +2,9 @@
 #include<iostream>
 #include<sstream>
 #include<string>
-#include<vector>
 #include<tuple>
 #include<cstdlib>
+#include<vector>
 #include<map>
 #include<unordered_map>
 #include<algorithm>
@@ -68,30 +68,37 @@ inline char getcharofdigit(int digit){ 	return (char) ( digit + '0' ); }
 
 class LargeUnsignedInts{
 
+	//Private APIs
 	void ConvertFromULLToOurFormat(unsigned long long);
 	void ConvertFromStringToOurFormat(std::string );
 	void CorrectFormatAfterOperation();	//removes zeros from front of string
 	void multiplyOneDigit(std::string& Num, int n);
         int  borrowandmodify(unsigned long long thiscounter);
+	int  findQuitiontForOne(const std::vector<std::string>& TableofDividend, const std::string& divisor);
+        void DivisionOfStrings(const std::vector<std::string>& TableofDividend, const std::string& divisor, std::string& qut);
+
+	//Data Member
 	std::string mNumber;
+
 	public:
 		LargeUnsignedInts(unsigned long long num=0) { ConvertFromULLToOurFormat(num); }
 		LargeUnsignedInts(std::string num) { ConvertFromStringToOurFormat(num); }
 		void Add(const LargeUnsignedInts& that);       //result will be the number to which 'that' is added
-		int substract(const LargeUnsignedInts& that); //result will be the number from which 'that' is substracted 
+		int substract(const LargeUnsignedInts& that);  //result will be the number from which 'that' is substracted 
 		void multiply(const LargeUnsignedInts& that);  //result will be the number to which 'that' is multiplied
+        	void Divide(const LargeUnsignedInts& divisor); //Quotient will be stored in the Dividend and Remainder will be dropped
 		std::string getNumber() const	{ return mNumber; }
 		unsigned long long length() const { return mNumber.length(); } 
 		char operator[](unsigned long long int id) const;
 		bool operator<(const LargeUnsignedInts& other)	{ return mNumber < other.getNumber();	}
 		bool operator==(const LargeUnsignedInts& other)	{ return mNumber == other.getNumber();	}
 		bool operator>(const LargeUnsignedInts& other)	{ return mNumber > other.getNumber();	}
-		bool operator<(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this<tmp;  }
-		bool operator==(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this==tmp;  }
-		bool operator>(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this>tmp; }
+		LargeUnsignedInts& operator=(const LargeUnsignedInts& other)	{ mNumber.clear(); mNumber = other.getNumber();	return *this; }
+		bool operator<(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this < tmp;  }
+		bool operator==(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this == tmp;  }
+		bool operator>(const unsigned long long& other) { LargeUnsignedInts tmp(other); return *this > tmp; }
 
 };
-
 
 char LargeUnsignedInts::operator[](unsigned long long int id) const {
 	if( id>=0 && id<mNumber.length() ) {
@@ -128,7 +135,6 @@ void LargeUnsignedInts::ConvertFromStringToOurFormat(std::string other){
 	}
 	mNumber=other;
 }
-
 
 void LargeUnsignedInts::Add(const LargeUnsignedInts& that) {
 	std::string s;
@@ -260,7 +266,6 @@ void LargeUnsignedInts::multiplyOneDigit(std::string& Num, int n) {
 	Num = carry_string + Num;
 }
 
-
 void LargeUnsignedInts::multiply(const LargeUnsignedInts& that) {   //result will be the number to which 'that' is multiplied
 
 	LargeUnsignedInts TempInt;
@@ -275,19 +280,62 @@ void LargeUnsignedInts::multiply(const LargeUnsignedInts& that) {   //result wil
 	this->mNumber=TempInt.getNumber();
 
 }
-/*
-void LargeUnsignedInts::Divide(const LargeUnsignedInts& divisor) {   //Quotient will be stored in the Dividend and Remainder will be dropped
 
-	std::string Dividend = this->getNumber();
-	int starti, endi;
-	starti=endi=0;
-	vector<std::string> TableofDividen;
-	for(int i=0;i<=10;i++){
+int LargeUnsignedInts::findQuitiontForOne(const std::vector<std::string>& TableofDividend, const std::string& divisor)  { 
+	int li, ri; li=1; ri=9;
+	if(divisor<TableofDividend[li]) return li-1;
+	if(divisor == TableofDividend[li]) return li;
+	if(divisor>=TableofDividend[ri]) return ri;
 
+	while(ri-li>0){
+		if(divisor == TableofDividend[ri] ) return ri;
+		if(divisor <  TableofDividend[ri] ) ri--;
+		else if( divisor > TableofDividend[ri] ) return ri;
+	}
+	return li;
+}
+
+void LargeUnsignedInts::DivisionOfStrings(const std::vector<std::string>& TableofDividend, const std::string& divisor, std::string& qut)  { 
+
+	if(TableofDividend[1]>divisor){
+		qut=std::string("0");
+		return;
 	}
 
+	unsigned int minlen=TableofDividend[0].length();
+	unsigned int endi=minlen-1;
+	std::string curstr=divisor.substr(0,minlen);
+	qut.clear();
+	while(endi<divisor.length()) {
+		int qt=findQuitiontForOne(TableofDividend,curstr);
+		qut=qut + (char)( 0 + qt );
+		endi++;
+		if(endi>=divisor.length()){	break;	}
+		if(0 == qt){
+			curstr=curstr+divisor[endi];
+			continue;
+		}else{
+			LargeUnsignedInts temp(curstr);
+			temp.substract(TableofDividend[qt]);
+			curstr = temp.getNumber();
+			curstr = curstr + divisor[endi];
+		}
+	}
 }
-*/
+
+void LargeUnsignedInts::Divide(const LargeUnsignedInts& divisor) {   //Quotient will be stored in the Dividend and Remainder will be dropped
+
+	LargeUnsignedInts temp = *this;
+	std::vector<std::string> TableofDividend(11);
+	TableofDividend[0]=std::string("0");
+	TableofDividend[1]=temp.getNumber();
+	for(int i=2;i<=10;i++){
+		temp.Add(LargeUnsignedInts(TableofDividend[i-1]));
+		TableofDividend[i]=temp.getNumber();
+		temp= this->getNumber();
+	}
+	
+}
 
 std::string ExtractLastColFromline(const std::string& line){
         std::string retval;
