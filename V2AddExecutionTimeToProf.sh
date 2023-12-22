@@ -8,7 +8,7 @@ NFET="$1_with_$ETF.csv"
 EXTM="NONE"  #Execution Time Method
 CPPEXE="FileProcessor"
 CPPBUILD_DIR="build"
-
+OUT_FILE=""
 
 echo
 echo
@@ -19,6 +19,17 @@ if [ ! -e "$1" ] || [ ! -s "$1" ] ; then
     exit 1
 fi
 
+if [[ -z "$2" ]] ; then
+    echo " Output File Name is not provided hence keep it to be Processed_File.csv "
+    OUT_FILE="Processed_File.csv"
+else
+    OUT_FILE="$2"
+fi
+
+
+echo
+echo
+echo "Output File to be created ==  $OUT_FILE "
 
 echo
 echo "Creating working dir "
@@ -51,7 +62,7 @@ fi
 #debug info of cpp processor
 #export AMF_DEBUG=1
 
-./$CPPEXE 5 "$1" "Processed_File.csv"
+./$CPPEXE 5 "$1" "$OUT_FILE"
 
 
 if [ $? -eq 0 ]; then
