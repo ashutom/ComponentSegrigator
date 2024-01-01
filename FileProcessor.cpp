@@ -462,7 +462,7 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
                         start_of_second_int = --i;
                 }else{
                    // should not reach here
-                   std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Endtime parsing " << std::endl;
+                   std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] Problem with Endtime parsing " << std::endl;
 		   return ExecutionTime;
                 }
                 while(i>=0 && line[i]!=',') {   i--;   }
@@ -470,7 +470,7 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
                         end_of_second_int=i+1;
                 }else{
                    // should not reach here
-                   std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Start time parsing " << std::endl;
+                   std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] Problem with Start time parsing " << std::endl;
 		   return ExecutionTime;
                 }
 		//kernel in the file is in codes(  " " ) hence the delimeter is different now
@@ -482,14 +482,14 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 					end_of_kernel=i+1;
 				}else{
 					// should not reach here
-					std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Kernel name parsing " << std::endl;
-					return ExecutionTime; //found error case in the file with this line ==> "1274,15,1,134\",14,6,0"
+					std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] Problem with Kernel name parsing " << std::endl;
+					return ExecutionTime;
 				}
 		}
 		EndTime=line.substr(end_of_first_int,start_of_first_int-end_of_first_int+1);
 		StartTime=line.substr(end_of_second_int,start_of_second_int-end_of_second_int+1);
 		if(!IsvalidInt(EndTime) || !IsvalidInt(StartTime)){
-			 std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Problem with Parsing Time data " << std::endl;
+			 std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] Problem with Parsing Time data " << std::endl;
 			 return ExecutionTime;
 		}
                 kernel=line.substr(end_of_kernel,start_of_kernel-end_of_kernel+1);
@@ -497,13 +497,13 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 		LargeUnsignedInts LnumStartTime(StartTime);
 		LargeUnsignedInts LnumEndTime(EndTime);
 		if(LnumEndTime.substract(LnumStartTime)<0){
-			std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" LargeUnsignedInts == Problem with Time calulations endtime is less than start time  " << std::endl;
+			std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] LargeUnsignedInts == Problem with Time calulations endtime is less than start time  " << std::endl;
 			kernel.clear();
 			return ExecutionTime;
 		}
 		
 		if(LnumEndTime.getNumber().length()>19){ //ULL is 18 digit in decimal & 64 bits in binary
-			std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<" Execution time is ["<<LnumEndTime.getNumber()<<"] ## BEYOND ULL SIZE  " << std::endl;
+			std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] Execution time is ["<<LnumEndTime.getNumber()<<"] ## BEYOND ULL SIZE  " << std::endl;
 			kernel.clear();
 			return ExecutionTime;
 		}
@@ -525,7 +525,7 @@ unsigned long long parseExecutionTimeAndKernelProfV2(std::string& kernel, const 
 		//}
         }else{
         	// should not reach here
-                std::cout<<" FATAL Error in calculating the data at "<<__LINE__<<std::endl;
+                std::cout<<" FATAL Error at line ["<<__LINE__<<"] of file ["<<__FILE__<<"] "<<std::endl;
         }
 	return ExecutionTime;
 }
@@ -533,6 +533,7 @@ void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned lo
 
 	std::string firstline;
 	unsigned long long skippedrows=0;
+	unsigned long long newaddedrows=0;
 	getline(InputFile,firstline); // eat firstline as that is meta data
 	while(!InputFile.eof()){
 		std::string line, kernel;
@@ -549,6 +550,7 @@ void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned lo
 		auto found=StatsData.find(kernel);
 		if(found ==StatsData.end()){
 			StatsData.insert({kernel,std::make_tuple<unsigned long long,unsigned long>(std::forward<unsigned long long&&>(Exetime),1) });
+			newaddedrows++;
 			//std::tuple<unsigned long long,unsigned long> tmptuple =StatsData[kernel];
 			//std::cout<<" Inserting New Kernel :=>> [ "<<kernel<<" ] & times = "<<std::get<1>(tmptuple)<<"]<<=="<<std::endl;
 		}else{
@@ -561,7 +563,8 @@ void GetStatsDataRocProfV2(std::unordered_map<std::string,std::tuple<unsigned lo
 			//std::cout<<" Incrementing Kernel  :=>> [ "<<kernel<<" ] occurance to ["<<times+1<< "]<<=="<<std::endl;
 		}
 	}
-	std::cout<<"\n\n\n Processed Whole Input File. Total rows skipped == [ "<<skippedrows<<" ]\n\n\n"<<std::endl;
+	std::cout<<"\n\n\n Processed Whole Input File. Total rows skipped == [ "<<skippedrows<<" ] and the added rows == ["<< newaddedrows<<" ] \n\n\n"<<std::endl;
+	std::cout<<"\n\n\n Total rows in the map  === [ "<<StatsData.size()<<" ]\n\n\n"<<std::endl;
 }
 
 void CalculateStats(std::string& FirstI, std::string& Second){
